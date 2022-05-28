@@ -14,8 +14,6 @@
 #################################################################################
 
 
-
-
 #TKinter
 import tkinter as tk
 from tkinter import *
@@ -80,7 +78,7 @@ def onSave():
                                        filetypes=(("Python files", "*.png;*.jpg;*.svg"), ("All files", "*.*"))))
 
 
-# Create Clear Function
+# Clear Function
 def clear_Txt():
     inputtxt.delete(1.0, END)
 
@@ -276,62 +274,63 @@ def get_Settings(note, new_bg_img):
 
 
 # Main
-win = Tk()
-win.iconbitmap(
-    "/Users/christoph_rohde/Documents/02) Development/Python/Qrala/Qrala_Icon/Qrala_Icon_2.icns")
-win.title("Qrala")
-win.geometry("960x562")
+def main():
+    win = Tk()
+    win.iconbitmap(
+        "/Users/christoph_rohde/Documents/02) Development/Python/Qrala/Images/Qrala_Icon_2.icns")
+    win.title("Qrala")
+    win.geometry("960x562")
 
 
-# Menubar
-menubar = Menu(win)
-win.configure(background=bgColor, menu=menubar)
+    # Menubar
+    menubar = Menu(win)
+    win.configure(background=bgColor, menu=menubar)
 
 
-# File Menu
-filemenu = Menu(menubar)
-menubar.add_cascade(label="File", menu=filemenu)
-filemenu.add_command(label="New File", command=clear_Txt)
-filemenu.add_command(label="Open", command=onOpen)
-filemenu.add_separator()
-filemenu.add_command(label="Save File", command=onSave)
-filemenu.add_separator()
-filemenu.add_command(label="Exit", command=win.quit)
+    # File Menu
+    filemenu = Menu(menubar)
+    menubar.add_cascade(label="File", menu=filemenu)
+    filemenu.add_command(label="New File", command=clear_Txt)
+    filemenu.add_command(label="Open", command=onOpen)
+    filemenu.add_separator()
+    filemenu.add_command(label="Save File", command=onSave)
+    filemenu.add_separator()
+    filemenu.add_command(label="Exit", command=win.quit)
 
 
-# Qrala.png
-bg_img = Image.open(
-    '/Users/christoph_rohde/Documents/02) Development/Python/Qrala/Qrala_Icon/Qrala_1024x1024px.png')
-new_bg_img = ImageTk.PhotoImage(bg_img.resize((200, 200)))
+    # Qrala.png
+    bg_img = Image.open(
+        '/Users/christoph_rohde/Documents/02) Development/Python/Qrala/Images/Qrala_1024x1024px.png')
+    new_bg_img = ImageTk.PhotoImage(bg_img.resize((200, 200)))
 
 
-# Icons
-contact_Icon = ImageTk.PhotoImage(Image.open(
-    "/Users/christoph_rohde/Documents/02) Development/Python/Qrala/Qrala_Icon/Tab_icons/contact.png").resize((16, 16)))
-wifi_Icon = ImageTk.PhotoImage(Image.open(
-    "/Users/christoph_rohde/Documents/02) Development/Python/Qrala/Qrala_Icon/Tab_icons/wifi.png").resize((16, 16)))
-setting_Icon = ImageTk.PhotoImage(Image.open(
-    "/Users/christoph_rohde/Documents/02) Development/Python/Qrala/Qrala_Icon/Tab_icons/setting.png").resize((16, 16)))
-
-# Notebook
-
-note = ttk.Notebook(win)
-note.pack(fill="both", expand=1)
-
-own_QR = get_Own_QR(note, new_bg_img)
-note.add(own_QR, text="Custom")
-
-wifi_QR = get_WIFI_QR(note, new_bg_img)
-note.add(wifi_QR,  text="WIFI", image=wifi_Icon, compound="left")
-
-contact_QR = get_Contact_QR(note, new_bg_img)
-note.add(contact_QR, text="Contact", image=contact_Icon, compound="left")
-
-settings = get_Settings(note, new_bg_img)
-note.add(settings,  text="Settings", image=setting_Icon, compound="left")
-note.configure()
+    # Icons
+    contact_Icon = ImageTk.PhotoImage(Image.open(
+        "/Users/christoph_rohde/Documents/02) Development/Python/Qrala/Images/Tab_icons/contact.png").resize((16, 16)))
+    wifi_Icon = ImageTk.PhotoImage(Image.open(
+        "/Users/christoph_rohde/Documents/02) Development/Python/Qrala/Images/Tab_icons/wifi.png").resize((16, 16)))
+    setting_Icon = ImageTk.PhotoImage(Image.open("/Users/christoph_rohde/Documents/02) Development/Python/Qrala//Images/Tab_icons/setting.png").resize((16, 16)))
 
 
+    # Notebook
+    note = ttk.Notebook(win)
+    note.pack(fill="both", expand=1)
 
-win.mainloop()
+    own_QR = get_Own_QR(note, new_bg_img)
+    note.add(own_QR, text="Custom")
 
+    wifi_QR = get_WIFI_QR(note, new_bg_img)
+    note.add(wifi_QR, text="WIFI", image=wifi_Icon, compound="left")
+
+    contact_QR = get_Contact_QR(note, new_bg_img)
+    note.add(contact_QR, text="Contact", image=contact_Icon, compound="left")
+
+    settings = get_Settings(note, new_bg_img)
+    note.add(settings,  text="Settings", image=setting_Icon, compound="left")
+    note.configure()
+
+
+
+    win.mainloop()
+
+main()
