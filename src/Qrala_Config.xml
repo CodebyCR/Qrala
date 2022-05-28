@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Qrala>
+
+    <Settings>
+        <lang>"en"</lang>
+        <bg_trans>"false"</bg_trans>
+    </Settings>
+
+
+    <Translations id="de">
+        <QR_Inhalt>Wählen Sie den Inhalt des QR-Codes:</QR_Inhalt>
+        <Generate_Code>Code Generieren</Generate_Code>
+
+    </Translations>
+
+    <Translations id="en">
+        <label id="1">here</label>
+
+    </Translations>
+</Qrala>
