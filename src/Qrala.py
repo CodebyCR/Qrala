@@ -14,36 +14,66 @@
 #################################################################################
 
 
-#TKinter
+# TKinter
+import cv2
+from tkinter import filedialog
 import tkinter as tk
 from tkinter import *
-from tkinter import filedialog
+#from tkinter import filedialog
 from tkinter import ttk
 import tkinter
 from tkinter.font import BOLD
 
-#XML
+import os
+# XML
 import xml.dom.minidom
 
-#plist
+# plist
 import plistlib
 
 import pyqrcode  # max. 4296 Zeichen
 from PIL import Image, ImageTk
 
-import cv2
+
 import subprocess
 
 from pprint import pprint
-from sys import platform as _platform
+
+
+import SystemDependency as depend
 
 bgColor = "#696969"
 secColor = "#b5b5b5"
 font1 = ("Helvetica", 14)  # ("Century Gothic", 14, BOLD)
 font2 = ("Helvetica", 16)
 
-domtree = xml.dom.minidom.parse('/Users/christoph_rohde/Documents/02) Development/Python/Qrala/src/Qrala_Config.xml')
+rootPath = os.getcwd()
+
+domtree = xml.dom.minidom.parse(
+    rootPath + '/src/Qrala_Config.xml')
 qrala = domtree.documentElement
+
+
+def onOpen():
+    # if else    #wenn kein qr code
+    file_path = filedialog.askopenfilename()
+    splitIn = cv2.QRCodeDetector()
+    data, _, _ = splitIn.detectAndDecode(
+        cv2.imread(file_path))  # path einbauen
+    print("QRCode:\t", data)  # data is the inputtext
+    inputText.delete(1.0, END)
+    inputText.insert(1.0, data)
+
+
+def onSave():
+    # qr=get_QR()
+    print(filedialog.asksaveasfilename(initialdir="/", title="Save as",
+                                       filetypes=(("Python files", "*.png;*.jpg;*.svg"), ("All files", "*.*"))))
+
+
+# Clear Function
+def clearText():
+    inputText.delete(1.0, END)
 
 
 def get_From_XML(str):
@@ -61,31 +91,9 @@ def changeOnHover(button, colorOnHover, colorOnLeave):
         background=colorOnLeave))
 
 
-def onOpen():
-    # if else    #wenn kein qr code
-    file_path = filedialog.askopenfilename()
-    splitIn = cv2.QRCodeDetector()
-    data, _, _ = splitIn.detectAndDecode(
-        cv2.imread(file_path))  # path einbauen
-    print("QRCode:\t", data)  # data is the inputtext
-    inputtxt.delete(1.0, END)
-    inputtxt.insert(1.0, data)
-
-
-def onSave():
-    # qr=get_QR()
-    print(filedialog.asksaveasfilename(initialdir="/", title="Save as",
-                                       filetypes=(("Python files", "*.png;*.jpg;*.svg"), ("All files", "*.*"))))
-
-
-# Clear Function
-def clear_Txt():
-    inputtxt.delete(1.0, END)
-
-
 # Grab the text from the textbox into the code
 def get_QR():        # WIFI:S:password;T:WPA;P:ssid;; #formart
-    qr = pyqrcode.create(inputtxt.get(1.0, 3.0), error='H')
+    qr = pyqrcode.create(inputText.get(1.0, 3.0), error='H')
     qr.show()
 
     # qr = qr.png
@@ -103,37 +111,6 @@ def ausgabe():
 # returns list for mac
 
 
-def get_networks():
-    scan_cmd = subprocess.Popen(
-        ['/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport', '-s'],    stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    scan_out, scan_err = scan_cmd.communicate()
-    scan_out_data = []
-    scan_out_lines = str(scan_out).split("\\n")[1:-1]
-    for each_line in scan_out_lines:
-        split_line = [e for e in each_line.split(" ") if e != ""]
-        scan_out_data.append(split_line)
-    return scan_out_data
-
-
-def get_wifi_info():
-    process = subprocess.Popen(
-        ['/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport', '-I'], stdout=subprocess.PIPE)
-    out, err = process.communicate()
-    process.wait()
-
-    wifi_info = {}
-    for line in out.decode("utf-8").split("\n"):
-        if ": " in line:
-            key, val = line.split(": ")
-            key = key.replace(" ", "")
-            val = val.strip()
-
-            wifi_info[key] = val
-
-    return wifi_info
-
-# Frames
-
 def get_WIFI_QR(note, new_bg_img):
     wifi_QR = Frame(note)
     wifi_QR.configure(background=bgColor)
@@ -147,14 +124,14 @@ def get_WIFI_QR(note, new_bg_img):
                   pady=8)
 
     # Check for OS
-    if _platform == "darwin":
+    if depend._platform == "darwin":
         # MAC OS
         print("\nOS:\t", "Mac OS\n")
         # proc = subprocess.Popen(['/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport', '-s', '-x'], stdout=subprocess.PIPE)
         # #ssid_data = plistlib.load(proc.stdout)
         # pprint(plistlib.loads(proc, fmt=plistlib.FMT_BINARY,  dict_type=dict))
 
-    elif _platform == "win64":
+    elif depend._platform == "win64":
         #     #Windows 64-bit
         print("\nOS:\t", "Windows\n")
         #     nw = subprocess.check_output(['netsh','wlan','show','network'])
@@ -201,7 +178,7 @@ def get_WIFI_QR(note, new_bg_img):
     return wifi_QR
 
 
-def get_Own_QR(note, new_bg_img):
+def getCustomQR(note, new_bg_img):
     own_QR = Frame(note)
     own_QR.configure(background=bgColor)
 
@@ -214,11 +191,11 @@ def get_Own_QR(note, new_bg_img):
                   pady=8)
 
     # Textbox
-    global inputtxt
-    inputtxt = Text(own_QR, height=20, width=60, bg=secColor, font=font2)
-    inputtxt.grid(column=0,
-                  row=3,
-                  padx=20, sticky="nesw")
+    global inputText
+    inputText = Text(own_QR, height=20, width=60, bg=secColor, font=font2)
+    inputText.grid(column=0,
+                   row=3,
+                   padx=20, sticky="nesw")
 
     # Button zum QR-Code Generieren
     get_QR_button = tk.Button(own_QR, text=get_From_XML('Generate_Code'), highlightbackground=bgColor, padx=4,
@@ -277,46 +254,44 @@ def get_Settings(note, new_bg_img):
 def main():
     win = Tk()
     win.iconbitmap(
-        "/Users/christoph_rohde/Documents/02) Development/Python/Qrala/Images/Qrala_Icon_2.icns")
+        rootPath + "/Images/Qrala_Icon.icns")
+
+    print(rootPath + "/Images/Qrala_Icon.icns")
     win.title("Qrala")
     win.geometry("960x562")
-
 
     # Menubar
     menubar = Menu(win)
     win.configure(background=bgColor, menu=menubar)
 
-
     # File Menu
     filemenu = Menu(menubar)
     menubar.add_cascade(label="File", menu=filemenu)
-    filemenu.add_command(label="New File", command=clear_Txt)
+    filemenu.add_command(label="New File", command=clearText)
     filemenu.add_command(label="Open", command=onOpen)
     filemenu.add_separator()
     filemenu.add_command(label="Save File", command=onSave)
     filemenu.add_separator()
     filemenu.add_command(label="Exit", command=win.quit)
 
-
     # Qrala.png
     bg_img = Image.open(
-        '/Users/christoph_rohde/Documents/02) Development/Python/Qrala/Images/Qrala_1024x1024px.png')
+        rootPath + '/Images/Qrala_1024x1024px.png')
     new_bg_img = ImageTk.PhotoImage(bg_img.resize((200, 200)))
-
 
     # Icons
     contact_Icon = ImageTk.PhotoImage(Image.open(
-        "/Users/christoph_rohde/Documents/02) Development/Python/Qrala/Images/Tab_icons/contact.png").resize((16, 16)))
+        rootPath + "/Images/Tab_icons/contact.png").resize((16, 16)))
     wifi_Icon = ImageTk.PhotoImage(Image.open(
-        "/Users/christoph_rohde/Documents/02) Development/Python/Qrala/Images/Tab_icons/wifi.png").resize((16, 16)))
-    setting_Icon = ImageTk.PhotoImage(Image.open("/Users/christoph_rohde/Documents/02) Development/Python/Qrala//Images/Tab_icons/setting.png").resize((16, 16)))
-
+        rootPath + "/Images/Tab_icons/wifi.png").resize((16, 16)))
+    setting_Icon = ImageTk.PhotoImage(Image.open(
+        rootPath + "/Images/Tab_icons/setting.png").resize((16, 16)))
 
     # Notebook
     note = ttk.Notebook(win)
     note.pack(fill="both", expand=1)
 
-    own_QR = get_Own_QR(note, new_bg_img)
+    own_QR = getCustomQR(note, new_bg_img)
     note.add(own_QR, text="Custom")
 
     wifi_QR = get_WIFI_QR(note, new_bg_img)
@@ -327,10 +302,10 @@ def main():
 
     settings = get_Settings(note, new_bg_img)
     note.add(settings,  text="Settings", image=setting_Icon, compound="left")
+
     note.configure()
 
-
-
     win.mainloop()
+
 
 main()
