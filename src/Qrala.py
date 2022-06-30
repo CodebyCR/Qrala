@@ -31,7 +31,8 @@ import xml.dom.minidom
 # plist
 import plistlib
 
-import pyqrcode  # max. 4296 Zeichen
+# max. 4296 Zeichen
+import pyqrcode
 from PIL import Image, ImageTk
 
 
@@ -42,15 +43,17 @@ from pprint import pprint
 
 import SystemDependency as depend
 
-bgColor = "#696969"
+BG_COLOR = "#696969"
 secColor = "#b5b5b5"
-font1 = ("Helvetica", 14)  # ("Century Gothic", 14, BOLD)
-font2 = ("Helvetica", 16)
+FONT_1 = ("Helvetica", 14)  # ("Century Gothic", 14, BOLD)
+FONT_2 = ("Helvetica", 16)
 
-rootPath = os.getcwd()
+rootPath = os.path.dirname(os.getcwd())
+print(rootPath)
 
 domtree = xml.dom.minidom.parse(
     rootPath + '/src/Qrala_Config.xml')
+
 qrala = domtree.documentElement
 
 
@@ -99,7 +102,7 @@ def get_QR():        # WIFI:S:password;T:WPA;P:ssid;; #formart
     # qr = qr.png
     # qr = Image.open(qr)
     # qr_code = qr.resize((200, 200))
-    # qr_label = Label(win, image=qr_code, bg=bgColor)
+    # qr_label = Label(win, image=qr_code, bg=BG_COLOR)
     # qr_label.place(x=380, y=40, relwidth=1, relheight=1)
     return qr
 
@@ -113,10 +116,10 @@ def ausgabe():
 
 def get_WIFI_QR(note, new_bg_img):
     wifi_QR = Frame(note)
-    wifi_QR.configure(background=bgColor)
+    wifi_QR.configure(background=BG_COLOR)
 
     # GUI
-    label_In = tk.Label(wifi_QR, bg=bgColor, font=font2, fg="black",
+    label_In = tk.Label(wifi_QR, bg=BG_COLOR, font=FONT_2, fg="black",
                         text=get_From_XML('QR_Inhalt'))
     label_In.grid(column=0,
                   row=2,
@@ -151,7 +154,7 @@ def get_WIFI_QR(note, new_bg_img):
 
     global lbox
     lbox = tk.Listbox(wifi_QR, height=14, width=60,
-                      bg=secColor, font=font2, border=4)
+                      bg=secColor, font=FONT_2, border=4)
     lbox.grid(column=0,
               row=3,
               padx=20, sticky="nesw")
@@ -163,27 +166,27 @@ def get_WIFI_QR(note, new_bg_img):
     # schaltf1.pack()
 
     # Button zum QR-Code Generieren
-    get_QR_button = tk.Button(wifi_QR, text=get_From_XML('Generate_Code'), highlightbackground=bgColor, padx=4,
-                              pady=2, font=font1, command=get_QR)
+    get_QR_button = tk.Button(wifi_QR, text=get_From_XML('Generate_Code'), highlightbackground=BG_COLOR, padx=4,
+                              pady=2, font=FONT_1, command=get_QR)
     get_QR_button.grid(column=0,
                        row=4,
                        padx=10,
                        pady=18)
-    changeOnHover(get_QR_button, "green", "red")
+    changeOnHover(get_QR_button, "white", secColor)
 
     # Background Img
-    img_label = Label(wifi_QR, image=new_bg_img, bg=bgColor)
+    img_label = Label(wifi_QR, image=new_bg_img, bg=BG_COLOR)
     img_label.place(x=680, y=306)
 
     return wifi_QR
 
 
 def getCustomQR(note, new_bg_img):
-    own_QR = Frame(note)
-    own_QR.configure(background=bgColor)
+    customQR = Frame(note)
+    customQR.configure(background=BG_COLOR)
 
     # Label
-    label_In = tk.Label(own_QR, bg=bgColor, font=font2, fg="black",
+    label_In = tk.Label(customQR, bg=BG_COLOR, font=FONT_2, fg="black",
                         text=get_From_XML('QR_Inhalt'))
     label_In.grid(column=0,
                   row=2,
@@ -192,33 +195,33 @@ def getCustomQR(note, new_bg_img):
 
     # Textbox
     global inputText
-    inputText = Text(own_QR, height=20, width=60, bg=secColor, font=font2)
+    inputText = Text(customQR, height=20, width=60, bg=secColor, font=FONT_2)
     inputText.grid(column=0,
                    row=3,
                    padx=20, sticky="nesw")
 
     # Button zum QR-Code Generieren
-    get_QR_button = tk.Button(own_QR, text=get_From_XML('Generate_Code'), highlightbackground=bgColor, padx=4,
-                              pady=2, font=font1, command=get_QR)
-    changeOnHover(get_QR_button, "green", "red")
-    get_QR_button.grid(column=0,
+    getQrButton = tk.Button(customQR, text=get_From_XML('Generate_Code'), highlightbackground=BG_COLOR, padx=4,
+                              pady=2, font=FONT_1, command=get_QR)
+    changeOnHover(getQrButton, "white", secColor)
+    getQrButton.grid(column=0,
                        row=4,
                        padx=10,
                        pady=18)
 
     # Background Img
-    img_label = Label(own_QR, image=new_bg_img, bg=bgColor)
+    img_label = Label(customQR, image=new_bg_img, bg=BG_COLOR)
     img_label.place(x=680, y=306)
 
-    return own_QR
+    return customQR
 
 
-def get_Contact_QR(note, new_bg_img):
+def getContactQR(note, new_bg_img):
     contact_QR = Frame(note)
-    contact_QR.configure(background=bgColor)
+    contact_QR.configure(background=BG_COLOR)
 
     # Background Img
-    img_label = Label(contact_QR, image=new_bg_img, bg=bgColor)
+    img_label = Label(contact_QR, image=new_bg_img, bg=BG_COLOR)
     img_label.place(x=680, y=306)
 
     return contact_QR
@@ -226,21 +229,21 @@ def get_Contact_QR(note, new_bg_img):
 
 def get_Settings(note, new_bg_img):
     settings = Frame(note)
-    settings.configure(background=bgColor)
+    settings.configure(background=BG_COLOR)
 
     # Background Img
-    img_label = Label(settings, image=new_bg_img, bg=bgColor)
+    img_label = Label(settings, image=new_bg_img, bg=BG_COLOR)
     img_label.place(x=680, y=306)
 
     langLabel = ttk.Label(settings, text="Language:")
-    langLabel.configure(background=bgColor, font=font1, padding=10)
+    langLabel.configure(background=BG_COLOR, font=FONT_1, padding=10)
     langLabel.grid(column=0, row=2)
 
     chooseLang = ttk.Combobox(settings,
                               values=["Deutsch",
                                       "English"])
 
-    chooseLang.configure(background=bgColor, font=font1,
+    chooseLang.configure(background=BG_COLOR, font=FONT_1,
                          takefocus=NONE, justify=CENTER)
     chooseLang.grid(column=1, row=2)
     chooseLang.current(1)
@@ -253,8 +256,7 @@ def get_Settings(note, new_bg_img):
 # Main
 def main():
     win = Tk()
-    win.iconbitmap(
-        rootPath + "/Images/Qrala_Icon.icns")
+    win.iconbitmap( rootPath + "/Images/Qrala_Icon.icns")
 
     print(rootPath + "/Images/Qrala_Icon.icns")
     win.title("Qrala")
@@ -262,7 +264,7 @@ def main():
 
     # Menubar
     menubar = Menu(win)
-    win.configure(background=bgColor, menu=menubar)
+    win.configure(background=BG_COLOR, menu=menubar)
 
     # File Menu
     filemenu = Menu(menubar)
@@ -280,25 +282,29 @@ def main():
     new_bg_img = ImageTk.PhotoImage(bg_img.resize((200, 200)))
 
     # Icons
-    contact_Icon = ImageTk.PhotoImage(Image.open(
-        rootPath + "/Images/Tab_icons/contact.png").resize((16, 16)))
-    wifi_Icon = ImageTk.PhotoImage(Image.open(
-        rootPath + "/Images/Tab_icons/wifi.png").resize((16, 16)))
-    setting_Icon = ImageTk.PhotoImage(Image.open(
-        rootPath + "/Images/Tab_icons/setting.png").resize((16, 16)))
+    contact_16px = Image.open(
+        rootPath + "/Images/Tab_icons/contact.png").resize((16, 16))
+    wifi_16px = Image.open(
+        rootPath + "/Images/Tab_icons/wifi.png").resize((16, 16))
+    setting_16px = Image.open(
+        rootPath + "/Images/Tab_icons/setting.png").resize((16, 16))
+
+    contact_Icon = ImageTk.PhotoImage(contact_16px)
+    wifi_Icon = ImageTk.PhotoImage(wifi_16px)
+    setting_Icon = ImageTk.PhotoImage(setting_16px)
 
     # Notebook
     note = ttk.Notebook(win)
     note.pack(fill="both", expand=1)
 
-    own_QR = getCustomQR(note, new_bg_img)
-    note.add(own_QR, text="Custom")
+    customQR = getCustomQR(note, new_bg_img)
+    note.add(customQR, text="Custom")
 
-    wifi_QR = get_WIFI_QR(note, new_bg_img)
-    note.add(wifi_QR, text="WIFI", image=wifi_Icon, compound="left")
+    wifiQR = get_WIFI_QR(note, new_bg_img)
+    note.add(wifiQR, text="WIFI", image=wifi_Icon, compound="left")
 
-    contact_QR = get_Contact_QR(note, new_bg_img)
-    note.add(contact_QR, text="Contact", image=contact_Icon, compound="left")
+    contactQR = getContactQR(note, new_bg_img)
+    note.add(contactQR, text="Contact", image=contact_Icon, compound="left")
 
     settings = get_Settings(note, new_bg_img)
     note.add(settings,  text="Settings", image=setting_Icon, compound="left")
