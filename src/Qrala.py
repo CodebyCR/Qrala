@@ -1,7 +1,7 @@
 #################################################################################
 #   Copyright of Christoph Rohde, 2022                                          #
 #                                                                               #
-#   Qrala Version: 0.9 ,              # #  # # # # # #   # #                    #
+#   Qrala Version: 0.9.2 ,            # #  # # # # # #   # #                    #
 #   sine 2021                       #    #             #    #                   #
 #                                   #   #   #      #   #   #                    #
 #                                     #                  #                      #
@@ -19,12 +19,12 @@ import cv2
 from tkinter import filedialog
 import tkinter as tk
 from tkinter import *
-#from tkinter import filedialog
+from tkinter import filedialog
 from tkinter import ttk
 import tkinter
 from tkinter.font import BOLD
 
-import os
+
 # XML
 import xml.dom.minidom
 
@@ -32,7 +32,7 @@ import xml.dom.minidom
 import plistlib
 
 # max. 4296 Zeichen
-import pyqrcode
+import qrcode
 from PIL import Image, ImageTk
 
 
@@ -48,7 +48,9 @@ secColor = "#b5b5b5"
 FONT_1 = ("Helvetica", 14)  # ("Century Gothic", 14, BOLD)
 FONT_2 = ("Helvetica", 16)
 
-rootPath = os.path.dirname(os.getcwd())
+
+OPERRATING_SYSTEM = depend.getOS()
+rootPath = depend.getRootPath()
 print(rootPath)
 
 domtree = xml.dom.minidom.parse(
@@ -96,7 +98,7 @@ def changeOnHover(button, colorOnHover, colorOnLeave):
 
 # Grab the text from the textbox into the code
 def get_QR():        # WIFI:S:password;T:WPA;P:ssid;; #formart
-    qr = pyqrcode.create(inputText.get(1.0, 3.0), error='H')
+    qr = qrcode.make(inputText.get(1.0, 3.0))  # , error='H'
     qr.show()
 
     # qr = qr.png
@@ -127,14 +129,14 @@ def get_WIFI_QR(note, new_bg_img):
                   pady=8)
 
     # Check for OS
-    if depend._platform == "darwin":
+    if OPERRATING_SYSTEM == "darwin":
         # MAC OS
         print("\nOS:\t", "Mac OS\n")
         # proc = subprocess.Popen(['/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport', '-s', '-x'], stdout=subprocess.PIPE)
         # #ssid_data = plistlib.load(proc.stdout)
         # pprint(plistlib.loads(proc, fmt=plistlib.FMT_BINARY,  dict_type=dict))
 
-    elif depend._platform == "win64":
+    elif OPERRATING_SYSTEM == "win64":
         #     #Windows 64-bit
         print("\nOS:\t", "Windows\n")
         #     nw = subprocess.check_output(['netsh','wlan','show','network'])
@@ -202,12 +204,12 @@ def getCustomQR(note, new_bg_img):
 
     # Button zum QR-Code Generieren
     getQrButton = tk.Button(customQR, text=get_From_XML('Generate_Code'), highlightbackground=BG_COLOR, padx=4,
-                              pady=2, font=FONT_1, command=get_QR)
+                            pady=2, font=FONT_1, command=get_QR)
     changeOnHover(getQrButton, "white", secColor)
     getQrButton.grid(column=0,
-                       row=4,
-                       padx=10,
-                       pady=18)
+                     row=4,
+                     padx=10,
+                     pady=18)
 
     # Background Img
     img_label = Label(customQR, image=new_bg_img, bg=BG_COLOR)
@@ -256,7 +258,7 @@ def get_Settings(note, new_bg_img):
 # Main
 def main():
     win = Tk()
-    win.iconbitmap( rootPath + "/Images/Qrala_Icon.icns")
+    win.iconbitmap(rootPath + "/Images/Qrala_Icon.icns")
 
     print(rootPath + "/Images/Qrala_Icon.icns")
     win.title("Qrala")
