@@ -1,6 +1,6 @@
 <h1> Changelog </h1>
 
-> Qrala _sine 2021_ <br/> 
+> Qrala &bull; _sine 2021_ &bull; <br/> 
 > Version: 0.9.2 <br/> 
 > All rights reserved. <br/>
 > Copyright &copy; 2021 - 2022. [Christoph Rohde](https://github.com/CodebyCR) <br/>
