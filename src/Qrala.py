@@ -1,7 +1,7 @@
 #################################################################################
 #   Copyright of Christoph Rohde, 2022                                          #
 #                                                                               #
-#   Qrala Version: 0.9.2 ,            # #  # # # # # #   # #                    #
+#   Qrala Version: 0.9.4 ,            # #  # # # # # #   # #                    #
 #   sine 2021                       #    #             #    #                   #
 #                                   #   #   #      #   #   #                    #
 #                                     #                  #                      #
@@ -14,29 +14,26 @@
 #################################################################################
 
 
+
+
 # TKinter
-import cv2
-from tkinter import filedialog
-import tkinter as tk
+
 from tkinter import *
+
+# remove following trey lines, because they are not used anymore
+import tkinter as tk
 from tkinter import filedialog
 from tkinter import ttk
-import tkinter
-from tkinter.font import BOLD
-
-
+from tkinter import Entry
 # XML
 import xml.dom.minidom
 
-# plist
-import plistlib
+#
+import cv2
 
 # max. 4296 Zeichen
 import qrcode
 from PIL import Image, ImageTk
-
-
-import subprocess
 
 from pprint import pprint
 
@@ -49,7 +46,8 @@ FONT_1 = ("Helvetica", 14)  # ("Century Gothic", 14, BOLD)
 FONT_2 = ("Helvetica", 16)
 
 
-OPERRATING_SYSTEM = depend.getOS()
+OPERATING_SYSTEM = depend.getOS()
+
 rootPath = depend.getRootPath()
 print(rootPath)
 
@@ -57,6 +55,17 @@ domtree = xml.dom.minidom.parse(
     rootPath + '/src/Qrala_Config.xml')
 
 qrala = domtree.documentElement
+
+# Icons
+# Qrala.png
+bg_img = Image.open(
+    rootPath + '/Images/Qrala_1024x1024px.png')
+contact_16px = Image.open(
+    rootPath + "/Images/Tab_icons/contact.png").resize((16, 16))
+wifi_16px = Image.open(
+    rootPath + "/Images/Tab_icons/wifi.png").resize((16, 16))
+setting_16px = Image.open(
+    rootPath + "/Images/Tab_icons/setting.png").resize((16, 16))
 
 
 def onOpen():
@@ -95,6 +104,9 @@ def changeOnHover(button, colorOnHover, colorOnLeave):
     button.bind("<Leave>", func=lambda e: button.config(
         background=colorOnLeave))
 
+def removePlaceholder(event, current_entry):
+    current_entry.configure(state=NORMAL)
+    current_entry.delete(0, END)
 
 # Grab the text from the textbox into the code
 def get_QR():        # WIFI:S:password;T:WPA;P:ssid;; #formart
@@ -109,9 +121,7 @@ def get_QR():        # WIFI:S:password;T:WPA;P:ssid;; #formart
     return qr
 
 
-def ausgabe():
-    print(lbox.curselection())
-    aktuell_ausgewaehlt = lbox.curselection()
+
 
 # returns list for mac
 
@@ -129,43 +139,39 @@ def get_WIFI_QR(note, new_bg_img):
                   pady=8)
 
     # Check for OS
-    if OPERRATING_SYSTEM == "darwin":
+    if OPERATING_SYSTEM == "darwin":
         # MAC OS
         print("\nOS:\t", "Mac OS\n")
-        # proc = subprocess.Popen(['/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport', '-s', '-x'], stdout=subprocess.PIPE)
-        # #ssid_data = plistlib.load(proc.stdout)
-        # pprint(plistlib.loads(proc, fmt=plistlib.FMT_BINARY,  dict_type=dict))
 
-    elif OPERRATING_SYSTEM == "win64":
-        #     #Windows 64-bit
+    elif OPERATING_SYSTEM == "win64":
+        # Windows 64-bit
         print("\nOS:\t", "Windows\n")
-        #     nw = subprocess.check_output(['netsh','wlan','show','network'])
-        #     ssid_data =nw.decode('ascii')
-        #     print(ssid_data)
-        #     results = ssid_data.replace("\r","")
-        #     ls = results.split("\n")
-        #     ls = ls[4:]
-        #     ssids = []
-        #     x = 0
 
-        #     while x < len(ls):
-        #         if x % 5 == 0:
-        #             ssids.append(ls[x])
-        #         x += 1
-        #     print(ssids)
+    # Label
+    label_In = tk.Label(wifi_QR, bg=BG_COLOR, font=FONT_2, fg="black",
+                        text='Enter your WIFI information')
+    label_In.grid(column=0,
+                  row=0,
+                  padx=20,
+                  pady=8)
 
-    global lbox
-    lbox = tk.Listbox(wifi_QR, height=14, width=60,
-                      bg=secColor, font=FONT_2, border=4)
-    lbox.grid(column=0,
-              row=3,
-              padx=20, sticky="nesw")
+    wifi_name = Entry(wifi_QR, width=30)
+    wifi_name.grid(column=0,
+                        row=1,
+                        padx=20,
+                        pady=8)
+    wifi_name.insert(0, 'SSID (often WIFI-Name)')
+    wifi_name.configure(state=DISABLED)
+    wifi_name.bind("<Button-1>", lambda event: removePlaceholder(event, wifi_name))
 
-    # for network in ssids:
-    #     lbox.insert("end", network)
-
-    # schaltf1 = tk.Button(self, text="Aktion durchführen", command= ausgabe)
-    # schaltf1.pack()
+    wifi_password = Entry(wifi_QR, width=30)
+    wifi_password.grid(column=0,
+                        row=2,
+                        padx=20,
+                        pady=8)
+    wifi_password.insert(0, 'Password')
+    wifi_password.configure(state=DISABLED)
+    wifi_password.bind("<Button-1>", lambda event: removePlaceholder(event, wifi_password))
 
     # Button zum QR-Code Generieren
     get_QR_button = tk.Button(wifi_QR, text=get_From_XML('Generate_Code'), highlightbackground=BG_COLOR, padx=4,
@@ -218,6 +224,7 @@ def getCustomQR(note, new_bg_img):
     return customQR
 
 
+
 def getContactQR(note, new_bg_img):
     contact_QR = Frame(note)
     contact_QR.configure(background=BG_COLOR)
@@ -226,7 +233,114 @@ def getContactQR(note, new_bg_img):
     img_label = Label(contact_QR, image=new_bg_img, bg=BG_COLOR)
     img_label.place(x=680, y=306)
 
+    # Label
+    label_In = tk.Label(contact_QR, bg=BG_COLOR, font=FONT_2, fg="black",
+                        text='Enter your contact information for the VCard')
+    label_In.grid(column=0,
+                  row=1,
+                  padx=20,
+                  pady=8)
+
+    showed_name = Entry(contact_QR, width=30)
+    showed_name.grid(column=0,
+                        row=2,
+                        padx=20,
+                        pady=8)
+    showed_name.insert(0, 'Showed Name')
+    showed_name.configure(state=DISABLED)
+    showed_name.bind("<Button-1>", lambda event: removePlaceholder(event, showed_name))
+
+    last_name = Entry(contact_QR, width=30)
+    last_name.grid(column=0,
+                        row=3,
+                        padx=20,
+                        pady=8)
+    last_name.insert(0, 'Last Name')
+    last_name.configure(state=DISABLED)
+    last_name.bind("<Button-1>", lambda event: removePlaceholder(event, last_name))
+
+    first_name = Entry(contact_QR, width=30)
+    first_name.grid(column=1,
+                        row=3,
+                        padx=20,
+                        pady=8)
+    first_name.insert(0, 'First Name')
+    first_name.configure(state=DISABLED)
+    first_name.bind("<Button-1>", lambda event: removePlaceholder(event, first_name))
+
+    # Tel Number Entry
+    tel_number = Entry(contact_QR, width=30)
+    tel_number.grid(column=0,
+                        row=4,
+                        padx=20,
+                        pady=8)
+    tel_number.insert(0, 'Tel. Number')
+    tel_number.configure(state=DISABLED)
+    tel_number.bind("<Button-1>", lambda event: removePlaceholder(event, tel_number))
+
+    # Email Entry
+    email = Entry(contact_QR, width=30)
+    email.grid(column=1,
+                        row=4,
+                        padx=20,
+                        pady=8)
+    email.insert(0, 'Email')
+    email.configure(state=DISABLED)
+    email.bind("<Button-1>", lambda event: removePlaceholder(event, email))
+
+    # organization Entry
+    organization = Entry(contact_QR, width=30)
+    organization.grid(column=0,
+                        row=5,
+                        padx=20,
+                        pady=8)
+    organization.insert(0, 'Organization')
+    organization.configure(state=DISABLED)
+    organization.bind("<Button-1>", lambda event: removePlaceholder(event, organization))
+
+    # address Entry
+    address = Entry(contact_QR, width=30)
+    address.grid(column=1,
+                        row=5,
+                        padx=20,
+                        pady=8)
+    address.insert(0, 'Address')
+    address.configure(state=DISABLED)
+    address.bind("<Button-1>", lambda event: removePlaceholder(event, address))
+
+    # city Entry
+    city = Entry(contact_QR, width=30)
+    city.grid(column=0,
+                        row=6,
+                        padx=20,
+                        pady=8)
+    city.insert(0, 'City')
+    city.configure(state=DISABLED)
+    city.bind("<Button-1>", lambda event: removePlaceholder(event, city))
+
+    # country Entry
+    country = Entry(contact_QR, width=30)
+    country.grid(column=1,
+                        row=6,
+                        padx=20,
+                        pady=8)
+    country.insert(0, 'Country')
+    country.configure(state=DISABLED)
+    country.bind("<Button-1>", lambda event: removePlaceholder(event, country))
+
+    # postalcode Entry
+    postalcode = Entry(contact_QR, width=30)
+    postalcode.grid(column=0,
+                        row=7,
+                        padx=20,
+                        pady=8)
+    postalcode.insert(0, 'Postalcode')
+    postalcode.configure(state=DISABLED)
+    postalcode.bind("<Button-1>", lambda event: removePlaceholder(event, postalcode))
+
+
     return contact_QR
+
 
 
 def get_Settings(note, new_bg_img):
@@ -258,7 +372,7 @@ def get_Settings(note, new_bg_img):
 # Main
 def main():
     win = Tk()
-    win.iconbitmap(rootPath + "/Images/Qrala_Icon.icns")
+    win.iconbitmap(rootPath + "/Images/Qrala_Icon_2.icns")
 
     print(rootPath + "/Images/Qrala_Icon.icns")
     win.title("Qrala")
@@ -278,18 +392,8 @@ def main():
     filemenu.add_separator()
     filemenu.add_command(label="Exit", command=win.quit)
 
-    # Qrala.png
-    bg_img = Image.open(
-        rootPath + '/Images/Qrala_1024x1024px.png')
-    new_bg_img = ImageTk.PhotoImage(bg_img.resize((200, 200)))
 
-    # Icons
-    contact_16px = Image.open(
-        rootPath + "/Images/Tab_icons/contact.png").resize((16, 16))
-    wifi_16px = Image.open(
-        rootPath + "/Images/Tab_icons/wifi.png").resize((16, 16))
-    setting_16px = Image.open(
-        rootPath + "/Images/Tab_icons/setting.png").resize((16, 16))
+    new_bg_img = ImageTk.PhotoImage(bg_img.resize((200, 200)))
 
     contact_Icon = ImageTk.PhotoImage(contact_16px)
     wifi_Icon = ImageTk.PhotoImage(wifi_16px)
@@ -314,6 +418,5 @@ def main():
     note.configure()
 
     win.mainloop()
-
 
 main()
