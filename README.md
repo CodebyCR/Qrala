@@ -4,10 +4,10 @@
 You can show the latest changes [here](/changelog.md).*
 
 ### You can:
-- read QR-Codes.
-- modify QR-Codes
-- write your own QR-Codes.
+- [x] read QR-Codes.
+- [x] modify QR-Codes
+- [x] write your own QR-Codes.
 
 ### TODO:
-- create WIFI QR-Codes.
-- create VCard QR-Codes.
+- [ ] create WIFI QR-Codes.
+- [ ] create VCard QR-Codes.
