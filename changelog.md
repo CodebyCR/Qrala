@@ -9,8 +9,9 @@
 
 ---
 <h3>Version 0.9.5)  </h3>
-- <b>[WIFI QR-Codes are now working on macOS.](/issues/3)</b>
-- <b>[add better file structure.](/issues/1)</b>
+
+- <b> WIFI QR-Codes are now working on macOS. https://github.com/CodebyCR/Qrala/issues/3</b>
+- <b> add better file structure. https://github.com/CodebyCR/Qrala/issues/1 </b>
 - add some code for VCard QR-Codes
 - add some code for WIFI QR-Codes
 - some readability improvements and cleanups
@@ -21,7 +22,6 @@
 - add .gitignore
 - add some code for VCard QR-Codes
 - add some code for WIFI QR-Codes
-- 
 - some readability improvements
 
 ---
