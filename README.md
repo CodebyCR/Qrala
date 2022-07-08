@@ -5,9 +5,9 @@ You can show the latest changes [here](/changelog.md).*
 
 ### You can:
 - [x] read QR-Codes.
-- [x] modify QR-Codes
+- [x] modify QR-Codes.
 - [x] write your own QR-Codes.
 
 ### TODO:
-- [ ] create WIFI QR-Codes.
+- [ ] create WIFI QR-Codes (Testing on macOS).
 - [ ] create VCard QR-Codes.
