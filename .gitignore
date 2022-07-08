@@ -1,10 +1,9 @@
 #Intellij
-*/.idea
-*.iml
+.idea
+.iml
 
 # MacOs
-*.DS_Store
+.DS_Store
 
 # VS Code
-/.vscode
-
+.vscode
