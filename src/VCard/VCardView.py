@@ -1,13 +1,14 @@
 from tkinter.constants import DISABLED, NORMAL, END
 from tkinter.ttk import Entry, Frame, Label
+import src.ConstantStyle as cs
 
 # Colors
-BACKGROUND = "#696969"
-SECONDARY = "#b5b5b5"
+BACKGROUND = cs.BACKGROUND
+SECONDARY = cs.SECONDARY
 
 # Fonts
-FONT_1 = ("Helvetica", 14)
-FONT_2 = ("Helvetica", 16)
+FONT_1 = cs.FONT_1
+FONT_2 = cs.FONT_2
 
 def removePlaceholder(event, current_entry):
     current_entry.configure(state=NORMAL)
