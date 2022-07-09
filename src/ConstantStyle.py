@@ -10,7 +10,8 @@ This class is to unify the GUI style of this project.
 # Colors
 BACKGROUND = "#696969"
 SECONDARY = "#b5b5b5"
-
+FILL_COLOR = "black"
+BACK_COLOR = "white"
 
 # Fonts
 FONT_1 = ("Helvetica", 14)  # ("Century Gothic", 14, BOLD)
