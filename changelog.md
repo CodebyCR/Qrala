@@ -10,8 +10,8 @@
 ---
 <h3>Version 0.9.6)  </h3>
 
-- add new menu Qrala for preferences and close the Qrala application
-- add some code for customizing the QRCode 
+- added new menu Qrala for preferences and close the Qrala application
+- added some code for customizing the QRCode 
 - enhanced file structure https://github.com/CodebyCR/Qrala/issues/1 </b>
 - some readability improvements and cleanups
 
@@ -19,22 +19,22 @@
 <h3>Version 0.9.5)  </h3>
 
 - <b> WIFI QR-Codes are now working on macOS https://github.com/CodebyCR/Qrala/issues/3</b>
-- <b> add better file structure. https://github.com/CodebyCR/Qrala/issues/1 </b>
-- add some code for VCard QR-Codes
-- add some code for WIFI QR-Codes
+- <b> added better file structure. https://github.com/CodebyCR/Qrala/issues/1 </b>
+- added some code for VCard QR-Codes
+- added some code for WIFI QR-Codes
 - some readability improvements and cleanups
 
 ---
 <h3>Version 0.9.4)  </h3>
 
-- add .gitignore
-- add some code for VCard QR-Codes
-- add some code for WIFI QR-Codes
+- added .gitignore
+- added some code for VCard QR-Codes
+- added some code for WIFI QR-Codes
 - some readability improvements
 
 ---
 <h3>Version 0.9.2)  </h3>
 
-- make runable
+- makes application runnable
 
 ---
