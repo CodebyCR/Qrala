@@ -10,8 +10,8 @@
 ---
 <h3>Version 0.9.7)  </h3>
 
-- some code for VCard QR-Codes [#3](https://github.com/CodebyCR/Qrala/issues/3)
-- some code for translations
+- added some code for VCard QR-Codes [#3](https://github.com/CodebyCR/Qrala/issues/3)
+- added some code for translations
 - some readability improvements and cleanups
 
 ---
