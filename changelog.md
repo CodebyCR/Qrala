@@ -17,7 +17,7 @@
 ---
 <h3>Version 0.9.6)  </h3>
 
-- added new menu Qrala for preferences and close the Qrala application
+- added new menu 'Qrala' for preferences and close the Qrala application
 - added some code for customizing the QRCode 
 - enhanced file structure https://github.com/CodebyCR/Qrala/issues/1 </b>
 - some readability improvements and cleanups
