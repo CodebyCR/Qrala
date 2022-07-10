@@ -1,6 +1,6 @@
 
 # create VCard QR Code
-#from vobject import vCard
+# from vobject import vCard
 import qrcode
 
 # vCard content
@@ -39,7 +39,7 @@ x-qq:21588891
 END:VCARD
 """
 
-def create_vcard_qr(vcard_str):
+def create_vcard_qr(vcard_str = vCard_v4):
     qr = qrcode.QRCode(
         # version value is an integer from 1 to 40, which controls the size of the QR code (the minimum value is 1, which is a 12*12 matrix)
         # If you want the program to automatically determine, set the value to None and use the fit parameter
@@ -53,12 +53,14 @@ def create_vcard_qr(vcard_str):
     )
 
     # Fill vCard data into qr
-    qr.add_data(vCard_v4)
+    qr.add_data(vcard_str)
 
     qr.make(fit=True)
+    qr_image = qr.make_image()
 
+    qr_image.show()
     # Generate picture
-    return qr.make_image()
+    return qr_image
     # image.thumbnail((500, 500))
     # # Save the picture to the specified path file
     # image.show("QR.png")

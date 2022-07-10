@@ -2,6 +2,7 @@ from tkinter import Text, filedialog
 from tkinter.constants import END
 from tkinter.ttk import Frame, Label, Button
 import src.ConstantStyle as cs
+import src.Translations as translation
 import qrcode
 import cv2
 
@@ -39,7 +40,6 @@ def clearText():
 # Grab the text from the textbox into the code
 def get_QR():
     qr = qrcode.QRCode(
-
         error_correction = qrcode.constants.ERROR_CORRECT_H,
         # Control the number of pixels contained in each small grid in the QR code
         box_size = 2,
@@ -69,8 +69,7 @@ def getFrame(note, new_bg_img):
                      background=BACKGROUND,
                      font=FONT_2,
                      foreground="black",
-                     text="QR_Inhalt"
-                     # get_From_XML('QR_Inhalt')
+                     text=translation.get("QR_Inhalt")
                      )
     label_In.grid(column=0,
                   row=2,
@@ -86,8 +85,7 @@ def getFrame(note, new_bg_img):
 
     # Button zum QR-Code Generieren
     getQrButton = Button(customQR,
-                         text="Generate_Code",
-                         # get_From_XML('Generate_Code'),
+                         text=translation.get("Generate_Code"),
                          # highlightbackground=BG_COLOR,
                          # padx=4,
                          # pady=2,

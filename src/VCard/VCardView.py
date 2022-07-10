@@ -1,6 +1,8 @@
 from tkinter.constants import DISABLED, NORMAL, END
-from tkinter.ttk import Entry, Frame, Label
+from tkinter.ttk import Entry, Frame, Label, Button
+from src.VCard import VCardModel as model
 import src.ConstantStyle as cs
+import src.Translations as translation
 
 # Colors
 BACKGROUND = cs.BACKGROUND
@@ -10,13 +12,36 @@ SECONDARY = cs.SECONDARY
 FONT_1 = cs.FONT_1
 FONT_2 = cs.FONT_2
 
+
+
+def create_Entry(frame, current_column, current_row, placeholder_text):
+    entry_name = Entry(frame, width=30)
+    entry_name.insert(0, placeholder_text)
+    entry_name.grid(column=current_column,
+                    row=current_row,
+                    padx=20,
+                    pady=8)
+    return entry_name
+
 def removePlaceholder(event, current_entry):
     current_entry.configure(state=NORMAL)
     current_entry.delete(0, END)
 
+
+def get_text(entry, placeholder_text):
+    input = entry.get()
+    input = input.strip()
+
+    if input == "" or input == placeholder_text:
+        input = None
+
+    return input
+
+def create_tuple():
+    postcode_str = get_text(postcode, "Postalcode")
+
 def getFrame(note, new_bg_img):
     vcard_frame = Frame(note)
-    # vcard_frame.configure( background=BACKGROUND)
 
     # Background Img
     img_label = Label(vcard_frame, image=new_bg_img, background=BACKGROUND)
@@ -30,102 +55,69 @@ def getFrame(note, new_bg_img):
                   padx=20,
                   pady=8)
 
-    showed_name = Entry(vcard_frame, width=30)
-    showed_name.grid(column=0,
-                        row=2,
-                        padx=20,
-                        pady=8)
-    showed_name.insert(0, 'Showed Name')
-    showed_name.configure(state=DISABLED)
-    showed_name.bind("<Button-1>", lambda event: removePlaceholder(event, showed_name))
 
-    last_name = Entry(vcard_frame, width=30)
-    last_name.grid(column=0,
-                        row=3,
-                        padx=20,
-                        pady=8)
-    last_name.insert(0, 'Last Name')
+    # Shown name
+    shown_name = create_Entry(vcard_frame, 0, 2, "Shown Name")
+    shown_name.configure(state=DISABLED)
+    shown_name.bind("<Button-1>", lambda event: removePlaceholder(event, shown_name))
+
+    # Last name
+    last_name = create_Entry(vcard_frame, 0, 3, "Last Name")
     last_name.configure(state=DISABLED)
     last_name.bind("<Button-1>", lambda event: removePlaceholder(event, last_name))
 
-    first_name = Entry(vcard_frame, width=30)
-    first_name.grid(column=1,
-                        row=3,
-                        padx=20,
-                        pady=8)
-    first_name.insert(0, 'First Name')
+    # First name
+    first_name = create_Entry(vcard_frame, 1, 3, "First Name")
     first_name.configure(state=DISABLED)
     first_name.bind("<Button-1>", lambda event: removePlaceholder(event, first_name))
 
-    # Tel Number Entry
-    tel_number = Entry(vcard_frame, width=30)
-    tel_number.grid(column=0,
-                        row=4,
-                        padx=20,
-                        pady=8)
-    tel_number.insert(0, 'Tel. Number')
-    tel_number.configure(state=DISABLED)
-    tel_number.bind("<Button-1>", lambda event: removePlaceholder(event, tel_number))
+    # Telephone number
+    telephone_number = create_Entry(vcard_frame, 0, 4, "Tel. Number")
+    telephone_number.configure(state=DISABLED)
+    telephone_number.bind("<Button-1>", lambda event: removePlaceholder(event, telephone_number))
 
-    # Email Entry
-    email = Entry(vcard_frame, width=30)
-    email.grid(column=1,
-                        row=4,
-                        padx=20,
-                        pady=8)
-    email.insert(0, 'Email')
+    # Email
+    email = create_Entry(vcard_frame, 1, 4, "Email")
     email.configure(state=DISABLED)
     email.bind("<Button-1>", lambda event: removePlaceholder(event, email))
 
-    # organization Entry
-    organization = Entry(vcard_frame, width=30)
-    organization.grid(column=0,
-                        row=5,
-                        padx=20,
-                        pady=8)
-    organization.insert(0, 'Organization')
+    # Organization
+    organization = create_Entry(vcard_frame, 0, 5, "Organization")
     organization.configure(state=DISABLED)
     organization.bind("<Button-1>", lambda event: removePlaceholder(event, organization))
 
-    # address Entry
-    address = Entry(vcard_frame, width=30)
-    address.grid(column=1,
-                        row=5,
-                        padx=20,
-                        pady=8)
-    address.insert(0, 'Address')
+    # Address
+    address = create_Entry(vcard_frame, 1, 5, "Address")
     address.configure(state=DISABLED)
     address.bind("<Button-1>", lambda event: removePlaceholder(event, address))
 
-    # city Entry
-    city = Entry(vcard_frame, width=30)
-    city.grid(column=0,
-                        row=6,
-                        padx=20,
-                        pady=8)
-    city.insert(0, 'City')
+    # City
+    city = create_Entry(vcard_frame, 0, 6, "City")
     city.configure(state=DISABLED)
     city.bind("<Button-1>", lambda event: removePlaceholder(event, city))
 
-    # country Entry
-    country = Entry(vcard_frame, width=30)
-    country.grid(column=1,
-                        row=6,
-                        padx=20,
-                        pady=8)
-    country.insert(0, 'Country')
+    # Country
+    country = create_Entry(vcard_frame, 1, 6, "Country")
     country.configure(state=DISABLED)
     country.bind("<Button-1>", lambda event: removePlaceholder(event, country))
 
-    # postalcode Entry
-    postalcode = Entry(vcard_frame, width=30)
-    postalcode.grid(column=0,
-                        row=7,
-                        padx=20,
-                        pady=8)
-    postalcode.insert(0, 'Postalcode')
-    postalcode.configure(state=DISABLED)
-    postalcode.bind("<Button-1>", lambda event: removePlaceholder(event, postalcode))
+    # Postcode
+    global postcode
+    postcode = create_Entry(vcard_frame, 0, 7, "Postalcode")
+    postcode.configure(state=DISABLED)
+    postcode.bind("<Button-1>", lambda event: removePlaceholder(event, postcode))
 
+
+    get_QR_button = Button(vcard_frame,
+                           text=translation.get("Generate_Code"),
+                           command=model.create_vcard_qr)
+
+
+
+    get_QR_button.grid(column=1,
+                       row=7,
+                       padx=10,
+                       pady=18)
+    cs.changeOnHover(get_QR_button, "white", SECONDARY)
 
     return vcard_frame
