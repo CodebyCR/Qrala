@@ -45,11 +45,13 @@ def get_current_password(ssid):
 def create_wifi_qr(ssid, password):
 
     # Use wifi_qrcode() to create a QR image
-    wifiQR = wifi_qrcode(ssid,
+    qr_image = wifi_qrcode(ssid,
                         False,
                         "WPA",
                         password)
-    wifiQR.show()
+    qr_image.show()
+
+    return qr_image
 
 def try_current_wifi():
     try:

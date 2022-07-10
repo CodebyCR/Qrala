@@ -1,4 +1,4 @@
-from pprint import pprint
+# from pprint import pprint
 from tkinter.constants import CENTER, NONE
 from tkinter.ttk import Frame, Label, Combobox
 import src.ConstantStyle as cs
@@ -12,6 +12,10 @@ SECONDARY = cs.SECONDARY
 FONT_1 = cs.FONT_1
 FONT_2 = cs.FONT_2
 
+def switch_language(lang):
+    print(lang)
+    pass
+
 def get_frame(note, new_bg_img):
     settings = Frame(note)
     # settings.configure(background=BG_COLOR)
@@ -24,15 +28,17 @@ def get_frame(note, new_bg_img):
     langLabel.configure(background=BACKGROUND, font=FONT_1, padding=10)
     langLabel.grid(column=0, row=2)
 
-    chooseLang = Combobox(settings,
+    chooseLang = Combobox(settings, state="readonly",
                               values=["Deutsch",
-                                      "English"])
+                                      "English"]
+                              )
 
     chooseLang.configure(background=BACKGROUND, font=FONT_1,
                          takefocus=NONE, justify=CENTER)
     chooseLang.grid(column=1, row=2)
     chooseLang.current(1)
 
-    pprint(dict(chooseLang))
+
+    # pprint(dict(chooseLang))
 
     return settings

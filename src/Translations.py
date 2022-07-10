@@ -13,6 +13,6 @@ qrala = domtree.documentElement
 def get(some_string):
     # read XML
     tag_name = qrala.getElementsByTagName(some_string)
-    return tag_name[0].firstChild.data
+    return tag_name[1].firstChild.data
 
 

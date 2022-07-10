@@ -10,12 +10,13 @@
 
     <Translations id="de">
         <QR_Inhalt>Wählen Sie den Inhalt des QR-Codes:</QR_Inhalt>
-        <Generate_Code>Code Generieren</Generate_Code>
+        <Generate_Code>Code erstellen</Generate_Code>
 
     </Translations>
 
     <Translations id="en">
-        <label id="1">here</label>
+        <QR_Inhalt>Enter the input of the QR-Code:</QR_Inhalt>
+        <Generate_Code>Create Code</Generate_Code>
 
     </Translations>
 </Qrala>
