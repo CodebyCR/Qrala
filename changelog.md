@@ -8,6 +8,13 @@
 #
 
 ---
+<h3>Version 0.9.7)  </h3>
+
+- some code for VCard QR-Codes https://github.com/CodebyCR/Qrala/issues/3
+- some code for translations
+- some readability improvements and cleanups
+
+---
 <h3>Version 0.9.6)  </h3>
 
 - added new menu Qrala for preferences and close the Qrala application
