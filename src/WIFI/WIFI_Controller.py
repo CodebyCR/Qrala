@@ -1,6 +1,8 @@
 import subprocess
 import src.SystemDependency as sys_dep
-from wifi_qrcode_generator import wifi_qrcode
+#from wifi_qrcode_generator import wifi_qrcode
+import qrcode
+import src.ConstantStyle as cs
 
 # Mac command to get WI-FI Password
 # /System/Library/PrivateFrameworks/Apple80211.framework/Resources/airport -I | awk -F: '/ SSID/{print $2}'
@@ -46,11 +48,40 @@ def get_current_password(ssid):
 
 # working on macOS
 def create_wifi_qr(ssid, password):
+    #works
     # Use wifi_qrcode() to create a QR image
-    qr_image = wifi_qrcode(ssid,
-                           False,
-                           "WPA",
-                           password)
+    # qr_image = wifi_qrcode(ssid,
+    #                        False,
+    #                        "WPA",
+    #                        password)
+
+    # wifi text
+    wifi_text = "WIFI:T:WPA;S:"
+    wifi_text += ssid
+    wifi_text += f""";P:"""
+    wifi_text += password
+    wifi_text += f""";H:false;;"""
+
+
+    qr = qrcode.QRCode(
+        # version value is an integer from 1 to 40, which controls the size of the QR code (the minimum value is 1, which is a 12*12 matrix)
+        # If you want the program to automatically determine, set the value to None and use the fit parameter
+        version=5,
+
+        # ERROR_CORRECT_H: About 30% or less errors can be corrected
+        error_correction=qrcode.constants.ERROR_CORRECT_H,
+
+        # Control the number of pixels contained in each small grid in the QR code
+        box_size=2,
+        border=3,
+    )
+
+    # Fill vCard data into qr
+    qr.add_data(wifi_text)
+
+    qr.make(fit=True)
+
+    qr_image = qr.make_image(fill_color=cs.FILL_COLOR, back_color=cs.BACK_COLOR)
     qr_image.show()
 
     return qr_image

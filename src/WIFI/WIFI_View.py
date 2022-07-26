@@ -17,6 +17,7 @@ SSID_PLACEHOLDER = 'SSID (often WIFI-Name)'
 PASSWORD_PLACEHOLDER = 'Password'
 
 
+
 def create_qr():
     ssid = cs.get_entry_text(wifi_name, SSID_PLACEHOLDER)
     password = cs.get_entry_text(wifi_password, PASSWORD_PLACEHOLDER)
