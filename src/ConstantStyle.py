@@ -5,8 +5,10 @@ This class is to unify the GUI style of this project.
 """
 
 # Colors
-BACKGROUND = "#696969"
+BACKGROUND = "#000000" #"#696969"
 SECONDARY = "#b5b5b5"
+
+# For QR Code
 FILL_COLOR = "black"
 BACK_COLOR = "white"
 
