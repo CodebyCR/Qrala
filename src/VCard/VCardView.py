@@ -23,6 +23,10 @@ ADDRESS = "Address"
 CITY = "City"
 COUNTRY = "Country"
 POSTALCODE = "Postalcode"
+BIRTHDAY = "Birthday (mm.dd.yyyy)"
+WEBSITE = "http://www.website.com/"
+
+
 
 entry_List = []
 
@@ -57,6 +61,8 @@ def create_text():
     entry_dic[CITY] = entry_List[7].get()
     entry_dic[COUNTRY] = entry_List[8].get()
     entry_dic[POSTALCODE] = entry_List[9].get()
+    entry_dic[BIRTHDAY] = entry_List[10].get()
+    entry_dic[WEBSITE] = entry_List[11].get()
 
     print(entry_dic)
     
@@ -191,6 +197,17 @@ def getFrame(note, new_bg_img):
     postcode.configure(state=DISABLED)
     postcode.bind("<Button-1>", lambda event: removePlaceholder(event, postcode))
 
+    # Birthday
+    global birthday
+    birthday = create_Entry(vcard_frame, 1, 7, BIRTHDAY)
+    birthday.configure(state=DISABLED)
+    birthday.bind("<Button-1>", lambda event: removePlaceholder(event, birthday))
+
+    # Website
+    global website
+    website = create_Entry(vcard_frame, 0, 8, WEBSITE)
+    website.configure(state=DISABLED)
+    website.bind("<Button-1>", lambda event: removePlaceholder(event, website))
 
     get_QR_button = Button(vcard_frame,
                            text=translation.get("Generate_Code"),
@@ -199,7 +216,7 @@ def getFrame(note, new_bg_img):
 
 
     get_QR_button.grid(column=1,
-                       row=7,
+                       row=8,
                        padx=10,
                        pady=18)
     # cs.changeOnHover(get_QR_button, "white", SECONDARY)
