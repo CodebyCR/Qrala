@@ -1,6 +1,6 @@
 <h1><img width="26px" height="26px" src="/Images/Qrala_24x24px.png"/> Qrala </h1> 
 
-*Qrala is a QR-Code creation and reading tool with tkInter GUI.<br/>
+*Qrala is a all-in-one QR-Code tool with tkInter GUI.<br/>
 You can show the latest changes [here](/changelog.md).*
 
 ### You can:
@@ -10,4 +10,4 @@ You can show the latest changes [here](/changelog.md).*
 
 ### TODO:
 - [ ] create WIFI QR-Codes (Testing on macOS).
-- [ ] create VCard QR-Codes.
+- [ ] create VCard QR-Codes (Testing on macOS).
