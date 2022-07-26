@@ -1,11 +1,21 @@
 <h1> Changelog </h1>
 
 > Qrala &bull; _since 2021_ &bull;  <br/> 
-> Version: 0.9.7 <br/> 
+> Version: 0.9.8 <br/> 
 > All rights reserved. <br/>
 > Copyright &copy; 2021 - 2022. [Christoph Rohde](https://github.com/CodebyCR) <br/>
 > Licence: GNU Affero General Public License v3.0
 #
+
+---
+<h3>Version 0.9.8)  </h3>
+
+- <b> VCard QR-Codes are now working on macOS [#3](https://github.com/CodebyCR/Qrala/issues/3) </b>
+- added some code for VCard QR-Codes [#3](https://github.com/CodebyCR/Qrala/issues/3)
+- added some code for wifi QR-Codes [#3](https://github.com/CodebyCR/Qrala/issues/3)
+- added some code for Settings which are follows in the future [#5](https://github.com/CodebyCR/Qrala/issues/5)
+- Settings are now outsourced to a separate window [#1](https://github.com/CodebyCR/Qrala/issues/1)
+- some performance and consistency improvements
 
 ---
 <h3>Version 0.9.7)  </h3>
