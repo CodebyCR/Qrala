@@ -91,7 +91,7 @@ def getFrame(note, new_bg_img):
                          # pady=2,
                          # font=FONT_1,
                          command=get_QR)
-    cs.changeOnHover(getQrButton, "white", SECONDARY)
+    # cs.changeOnHover(getQrButton, "white", SECONDARY)
     getQrButton.grid(column=0,
                      row=4,
                      padx=10,

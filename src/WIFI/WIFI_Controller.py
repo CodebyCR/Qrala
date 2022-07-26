@@ -17,6 +17,7 @@ elif OPERATING_SYSTEM == "win64":
     # Windows 64-bit
     print("\nOS:\t", "Windows\n")
 
+
 def get_current_ssid():
     # get SSID from Terminal
     get_current_SSID_Command = "/System/Library/PrivateFrameworks/Apple80211.framework/Resources/airport -I | awk -F: '/ SSID/{print $2}'"
@@ -28,6 +29,7 @@ def get_current_ssid():
     print(f"SSID: {ssid}")
 
     return ssid
+
 
 def get_current_password(ssid):
     # get password for the current SSID from Terminal
@@ -41,17 +43,18 @@ def get_current_password(ssid):
 
     return password
 
+
 # working on macOS
 def create_wifi_qr(ssid, password):
-
     # Use wifi_qrcode() to create a QR image
     qr_image = wifi_qrcode(ssid,
-                        False,
-                        "WPA",
-                        password)
+                           False,
+                           "WPA",
+                           password)
     qr_image.show()
 
     return qr_image
+
 
 def try_current_wifi():
     try:

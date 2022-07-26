@@ -1,25 +1,64 @@
 
-# create VCard QR Code
-# from vobject import vCard
 import qrcode
 
-# vCard content
+# vCard_v3 = """
+# BEGIN:VCARD
+# VERSION:3.0
+# FN:Christoph Rohde
+# N:Rohde;Christoph
+# BDAY:--01.02
+# ORG;TYPE=work:Sim
+# ADR;WORK:;;Weinberg 48;Wuppertal;;42109
+# TEL;WORK;VOICE:015785407998
+# URL:http://www.website.com/
+# EMAIL;
+# iich@live.de
+# END:VCARD
+# """
 
 vCard_v3 = """
 BEGIN:VCARD
 VERSION:3.0
-FN:Vorname Nachname
-N:Nachname;Vorname
-BDAY:--0203
-ORG;TYPE=work:Viagenie
-ADR;WORK:;;Straße Hausnummer;Ort;;Postleitzahl
-TEL;WORK;VOICE:+49 7531 12345
-TEL;TYPE=CELL:+49 178 12345678
-TEL;WORK;FAX:+49 7531 123456
+FN:Christoph Rohde
+N:Rohde;Christoph
+BDAY:--01.02
+ORG;TYPE=work:Sim
+ADR;WORK:;;Weinberg 48;Wuppertal;;42109
+TEL;WORK;VOICE:015785407998
 URL:http://www.website.com/
-EMAIL;INTERNET:email.address@website.com
-END:VCARD
-"""
+EMAIL;
+iich@live.de
+END:VCARD"""
+
+# vCard_v3 = """
+# BEGIN:VCARD
+# VERSION:3.0
+# FN:Christoph Rohde
+# N:Rohde;Christoph
+# BDAY:--01.02
+# ORG;TYPE=work:Sim
+# ADR;WORK:;;Weinberg 48;Wuppertal;;42109
+# TEL;WORK;VOICE:015785407998
+# URL:http://www.website.com/
+# EMAIL;
+# iich@live.de
+# END:VCARD"""
+
+# vCard_v3 = """
+# BEGIN:VCARD
+# VERSION:3.0
+# FN:Christoph Rohde
+# N:Rohde;Christoph
+# BDAY:--01.02
+# ORG;TYPE=work:Sim
+# ADR;WORK:;;Weinberg 48;Wuppertal;;42109
+# TEL;WORK;VOICE:01575407998
+# URL:http://www.website.com/
+# EMAIL;
+# iich@live.de
+# END:VCARD
+# """
+
 
 vCard_v4 = """
 BEGIN:VCARD
@@ -39,7 +78,30 @@ x-qq:21588891
 END:VCARD
 """
 
-def create_vcard_qr(vcard_str = vCard_v4):
+vcard_text = ""
+vcard_text += "BEGIN:VCARD\n"
+vcard_text += "VERSION:4.0"
+
+
+def create_vcard_qr(entry_dict):
+
+    vCard_v3 = f"""
+    BEGIN:VCARD
+    VERSION:3.0
+    FN:{entry_dict["Shown Name"]}
+    N:{entry_dict["Last Name"]};{entry_dict["First Name"]}
+    BDAY:--01.02
+    ORG;TYPE=work:{entry_dict["Organization"]}
+    ADR;WORK:;;{entry_dict["Address"]};{entry_dict["City"]};;{entry_dict["Postalcode"]}
+    TEL;WORK;VOICE:{entry_dict["Tel. Number"]}
+    URL:http://www.website.com/
+    EMAIL;
+    {entry_dict["Email"]}
+    END:VCARD
+    """
+
+    vcard_txt = str(vCard_v3)
+
     qr = qrcode.QRCode(
         # version value is an integer from 1 to 40, which controls the size of the QR code (the minimum value is 1, which is a 12*12 matrix)
         # If you want the program to automatically determine, set the value to None and use the fit parameter
@@ -51,9 +113,9 @@ def create_vcard_qr(vcard_str = vCard_v4):
         box_size=2,
         border=3,
     )
-
+    print("this is the current string: ", vcard_txt)
     # Fill vCard data into qr
-    qr.add_data(vcard_str)
+    qr.add_data(vcard_txt)
 
     qr.make(fit=True)
     qr_image = qr.make_image()

@@ -17,7 +17,7 @@
 import Custom.CustomView as custom
 import VCard.VCardView as vcard
 import WIFI.WIFI_View as wifi
-import Settings as setting
+from src import Settings as setting
 import SystemDependency as sys_dep
 import ConstantStyle as cs
 
@@ -68,7 +68,7 @@ def main():
     # Qrala Menu
     qrala_menu = Menu(menubar, tearoff=0)
     menubar.add_cascade(label="Qrala", menu=qrala_menu)
-    qrala_menu.add_command(label="Preferences", command=custom.onOpen)
+    qrala_menu.add_command(label="Preferences", command=setting.get_settings)
     qrala_menu.add_separator()
     qrala_menu.add_command(label="Exit", command=win.quit)
 
@@ -83,7 +83,6 @@ def main():
     new_bg_img = ImageTk.PhotoImage(qrala_icon)
     contact_Icon = ImageTk.PhotoImage(contact_16px)
     wifi_Icon = ImageTk.PhotoImage(wifi_16px)
-    setting_Icon = ImageTk.PhotoImage(setting_16px)
 
     # Notebook
     note = Notebook(win)
@@ -97,9 +96,6 @@ def main():
 
     contactQR = vcard.getFrame(note, new_bg_img)
     note.add(contactQR, text="Contact", image=contact_Icon, compound="left")
-
-    settings = setting.get_frame(note, new_bg_img)
-    note.add(settings,  text="Settings", image=setting_Icon, compound="left")
 
     note.configure()
 
