@@ -1,5 +1,3 @@
-import qrcode
-import src.ConstantStyle as cs
 
 # TODO: for the future:
 # vCard_v4 = """
@@ -20,8 +18,7 @@ import src.ConstantStyle as cs
 # END:VCARD
 # """
 
-def create_vcard_text(entry_dict):
-
+def create_vcard_text(entry_dict: dict) -> str:
     vcard_txt = '''
     BEGIN:VCARD
     VERSION:3.0'''
@@ -40,32 +37,32 @@ def create_vcard_text(entry_dict):
     return vcard_txt
 
 
-def create_vcard_qr(entry_dict):
 
-    vcard_txt = create_vcard_text(entry_dict)
 
-    qr = qrcode.QRCode(
-        # version value is an integer from 1 to 40, which controls the size of the QR code (the minimum value is 1, which is a 12*12 matrix)
-        # If you want the program to automatically determine, set the value to None and use the fit parameter
-        version=5,
 
-        # ERROR_CORRECT_H: About 30% or less errors can be corrected
-        error_correction=qrcode.constants.ERROR_CORRECT_H,
-
-        # Control the number of pixels contained in each small grid in the QR code
-        box_size=2,
-        border=3,
-    )
-
-    # Fill vCard data into qr
-    qr.add_data(vcard_txt)
-
-    qr.make(fit=True)
-    qr_image = qr.make_image(fill_color=cs.FILL_COLOR, back_color=cs.BACK_COLOR)
-
-    qr_image.show()
-    # Generate picture
-    return qr_image
-    # image.thumbnail((500, 500))
-    # # Save the picture to the specified path file
-    # image.show("QR.png")
+# def create_vcard_qr(text: str) -> PilImage:
+#     qr = qrcode.QRCode(
+#         # version value is an integer from 1 to 40, which controls the size of the QR code (the minimum value is 1, which is a 12*12 matrix)
+#         # If you want the program to automatically determine, set the value to None and use the fit parameter
+#         version=5,
+#
+#         # ERROR_CORRECT_H: About 30% or less errors can be corrected
+#         error_correction=qrcode.constants.ERROR_CORRECT_H,
+#
+#         # Control the number of pixels contained in each small grid in the QR code
+#         box_size=2,
+#         border=3,
+#     )
+#
+#     # Fill vCard data into qr
+#     qr.add_data(vcard_txt)
+#
+#     qr.make(fit=True)
+#     qr_image = qr.make_image(fill_color=cs.FILL_COLOR, back_color=cs.BACK_COLOR)
+#
+#     qr_image.show()
+#     # Generate picture
+#     return qr_image
+#     # image.thumbnail((500, 500))
+#     # # Save the picture to the specified path file
+#     # image.show("QR.png")
