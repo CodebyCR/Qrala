@@ -5,7 +5,7 @@ This class is to unify the GUI style of this project.
 """
 
 # Colors
-BACKGROUND = "#000000" #"#696969"
+BACKGROUND = "#ECECEC"
 SECONDARY = "#b5b5b5"
 
 # For QR Code
@@ -18,7 +18,7 @@ FONT_2 = ("Helvetica", 16)
 
 
 # For Placeholder
-def removePlaceholder(event, current_entry):
+def removePlaceholder(event: any, current_entry: any) -> None:
     current_entry.configure(state=NORMAL)
     current_entry.delete(0, END)
 
@@ -32,7 +32,7 @@ def removePlaceholder(event, current_entry):
 #         background=colorOnLeave))
 
 
-def get_entry_text(entry, placeholder_text):
+def get_entry_text(entry: any, placeholder_text: any) -> any:
     input = entry.get()
     input = input.strip()
 

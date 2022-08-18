@@ -1,9 +1,9 @@
 from tkinter import Text, filedialog
 from tkinter.constants import END
-from tkinter.ttk import Frame, Label, Button
+from tkinter.ttk import Frame, Label
 import src.ConstantStyle as cs
 import src.Translations as translation
-import qrcode
+
 import cv2
 
 # Colors
@@ -26,43 +26,22 @@ def onOpen():
     custom_text.insert(1.0, result_text)
 
 
-def onSave():
-    # qr=get_QR()
-    print(filedialog.asksaveasfilename(initialdir="/", title="Save as",
-                                       filetypes=(("Python files", "*.png;*.jpg;*.svg"), ("All files", "*.*"))))
-
-
 # Clear Function
-def clearText():
+# def clear_text_entry(entry: Entry) -> None:
+#     entry.delete(1.0, END)
+
+def clear_text_entry() -> None:
     custom_text.delete(1.0, END)
 
 
 # Grab the text from the textbox into the code
-def get_QR():
-    qr = qrcode.QRCode(
-        error_correction = qrcode.constants.ERROR_CORRECT_H,
-        # Control the number of pixels contained in each small grid in the QR code
-        box_size = 2,
-        border = 3,
-    )
-
+def get_custom_text():
     text = custom_text.get(1.0, END)
-    qr.add_data(text)
-    qr.make(fit=True)
-    qr_image = qr.make_image(fill_color=cs.FILL_COLOR, back_color=cs.BACK_COLOR)
+    return text
 
-    qr_image.show()
 
-    # qr = qr.png
-    # qr = Image.open(qr)
-    # qr_code = qr.resize((200, 200))
-    # qr_label = Label(win, image=qr_code, bg=BG_COLOR)
-    # qr_label.place(x=380, y=40, relwidth=1, relheight=1)
-    return qr_image
-
-def getFrame(note, new_bg_img):
-    customQR = Frame(note)
-    # customQR.configure(background=BACKGROUND)
+def getFrame(note):
+    customQR = Frame(note, width=600)
 
     # Label
     label_In = Label(customQR,
@@ -78,27 +57,9 @@ def getFrame(note, new_bg_img):
 
     # Textbox
     global custom_text
-    custom_text = Text(customQR, height=20, width=60, bg=SECONDARY, font=FONT_2)
+    custom_text = Text(customQR, height=20, width=60, font=FONT_2)
     custom_text.grid(column=0,
-                   row=3,
-                   padx=20, sticky="nesw")
-
-    # Button zum QR-Code Generieren
-    getQrButton = Button(customQR,
-                         text=translation.get("Generate_Code"),
-                         # highlightbackground=BG_COLOR,
-                         # padx=4,
-                         # pady=2,
-                         # font=FONT_1,
-                         command=get_QR)
-    # cs.changeOnHover(getQrButton, "white", SECONDARY)
-    getQrButton.grid(column=0,
-                     row=4,
-                     padx=10,
-                     pady=18)
-
-    # Background Img
-    img_label = Label(customQR, image=new_bg_img, background=BACKGROUND)
-    img_label.place(x=680, y=306)
+                     row=3,
+                     padx=20, sticky="nesw")
 
     return customQR

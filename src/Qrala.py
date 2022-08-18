@@ -1,7 +1,7 @@
 #################################################################################
 #   Copyright of Christoph Rohde, 2022                                          #
 #                                                                               #
-#   Qrala Version: 0.9.6,             # #  # # # # # #   # #                    #
+#   Qrala Version: 0.9.9,             # #  # # # # # #   # #                    #
 #   sine 2021                       #    #             #    #                   #
 #                                   #   #   #      #   #   #                    #
 #                                     #                  #                      #
@@ -13,53 +13,154 @@
 #   Licence: GNU Affero General Public License v3.0                             #
 #################################################################################
 
-# Import Modules
+import qrcode
+
 import Custom.CustomView as custom
 import VCard.VCardView as vcard
 import WIFI.WIFI_View as wifi
 from src import Settings as setting
+from src import About
 import SystemDependency as sys_dep
 import ConstantStyle as cs
+import src.Translations as translation
 
 # tkinter
-from tkinter import Tk, Menu
-from tkinter.ttk import Notebook
+from tkinter import Tk, Menu, filedialog
+from tkinter.ttk import Notebook, Frame, Label, Button
 from PIL import Image, ImageTk
 
 # max. 4296 symbols
+current_qr_image = []
 
 BACKGROUND = cs.BACKGROUND
 SECONDARY = cs.SECONDARY
 FONT_1 = cs.FONT_1
 FONT_2 = cs.FONT_2
 
+OPERATING_SYSTEM = sys_dep.get_os()
 
-OPERATING_SYSTEM = sys_dep.getOS()
-
-rootPath = sys_dep.getRootPath()
-
-
+rootPath = sys_dep.get_root_path()
 
 # Icons
-bg_img = Image.open(
-    rootPath + '/Images/Qrala_1024x1024px.png')
-qrala_icon =  bg_img.resize((200, 200))
-contact_16px = Image.open(
-    rootPath + "/Images/Tab_icons/contact.png").resize((16, 16))
-wifi_16px = Image.open(
-    rootPath + "/Images/Tab_icons/wifi.png").resize((16, 16))
-setting_16px = Image.open(
-    rootPath + "/Images/Tab_icons/setting.png").resize((16, 16))
+image_path = sys_dep.get_image_path()
+tab_icon_path = image_path.joinpath("Tab_icons")
+
+bg_image_path = image_path.joinpath("Qrala_1024x1024px.png")
+bg_img = Image.open(bg_image_path)
+qrala_icon = bg_img.resize((200, 200))
+
+contact_path = tab_icon_path.joinpath("contact.png")
+contact_16px = Image.open(contact_path).resize((16, 16))
+
+wifi_path = tab_icon_path.joinpath("wifi.png")
+wifi_16px = Image.open(wifi_path).resize((16, 16))
+
+setting_path = tab_icon_path.joinpath("setting.png")
+setting_16px = Image.open(setting_path).resize((16, 16))
 
 
-# Main
-def main():
+def create_qr(text: str) -> Image:
+    qr = qrcode.QRCode(
+        #     # ERROR_CORRECT_H: About 30% or less errors can be corrected
+        #     error_correction=qrcode.constants.ERROR_CORRECT_H,
+        error_correction=setting.get_correctness(),
+        # Control the number of pixels contained in each small grid in the QR code
+        box_size=2,
+        border=3,
+        #     # version value is an integer from 1 to 40, which controls the size of the QR code
+        #     (the minimum value is 1, which is a 12*12 matrix)
+        #     # If you want the program to automatically determine, set the value to None and use the fit parameter
+        #     version=5,
+    )
+
+    qr.add_data(text)
+    qr.make(fit=True)
+    qr_image = qr.make_image(fill_color=cs.FILL_COLOR, back_color=cs.BACK_COLOR)
+
+    # qr = qr.png
+
+    return qr_image
+
+
+def set_qr_code_image(qr_text: str) -> Image:
+    qr_image = create_qr(qr_text)
+    qr_image = qr_image.resize((200, 200), Image.ANTIALIAS)
+
+    qr_tk_image = ImageTk.PhotoImage(qr_image)
+    qr_code.configure(image=qr_tk_image)
+    qr_code.image = qr_tk_image
+
+    return qr_image
+
+
+def generate_qr_text() -> str:
+    qr_text = ""
+    current_tab = note.index("current")
+
+    if current_tab == 0:
+        qr_text = custom.get_custom_text()
+
+    elif current_tab == 1:
+        qr_text = wifi.get_wifi_text()
+
+    elif current_tab == 2:
+        qr_text = vcard.get_vcard_text()
+
+    return qr_text
+
+
+def generate_qr_code():
+    generated_qr_text = generate_qr_text()
+    qr_image = set_qr_code_image(generated_qr_text)
+    current_qr_image.insert(0, qr_image)
+
+
+def generate_wifi_text():
+    wifi_text = wifi.generate_wifi_qr()
+    qr_image = set_qr_code_image(wifi_text)
+    current_qr_image.insert(0, qr_image)
+
+
+def on_save():
+    file = filedialog.asksaveasfile(
+        mode='w',
+        initialdir="/",
+        title="Save as",
+        initialfile='My_QR_Code.png',
+        # filetypes=(("Image files",
+        #             "*.png;*.jpg;*.svg")),
+        #            ("All files", "*.*")),
+        defaultextension=".png")
+
+    #
+    # my_file.write(current_qr_image)
+    # my_file.close()
+
+    if file:
+        qr_image: Image = current_qr_image[0]
+
+        if file.name.endswith(".png"):
+            qr_image.save(file.name)
+        # else:
+        #     qr_image.save(file.name + ".svg")
+
+        qr_image.save(file)
+        # file.close()
+
+
+def main() -> None:
     win = Tk()
-    win.iconbitmap(rootPath + "/Images/Qrala_Icon_2.icns")
 
-    print(rootPath + "/Images/Qrala_Icon.icns")
+    # Dock Icon
+    dock_image = Image.open("../Images/Qrala_Icon.icns")
+
+    win.iconphoto(False, ImageTk.PhotoImage(dock_image))
+    title_icon_path = image_path.joinpath("Qrala_Icon_2.icns")
+    win.iconbitmap(title_icon_path)
+
     win.title("Qrala")
     win.geometry("960x562")
+    win.resizable(False, False)
 
     # Menubar
     menubar = Menu(win)
@@ -69,37 +170,67 @@ def main():
     qrala_menu = Menu(menubar, tearoff=0)
     menubar.add_cascade(label="Qrala", menu=qrala_menu)
     qrala_menu.add_command(label="Preferences", command=setting.get_settings)
+    qrala_menu.add_command(label="About", command=About.get_about)
     qrala_menu.add_separator()
     qrala_menu.add_command(label="Exit", command=win.quit)
 
     # File Menu
     file_menu = Menu(menubar)
     menubar.add_cascade(label="File", menu=file_menu)
-    file_menu.add_command(label="New File", command=custom.clearText)
+    file_menu.add_command(label="New File", command=custom.clear_text_entry)
     file_menu.add_command(label="Open", command=custom.onOpen)
     file_menu.add_separator()
-    file_menu.add_command(label="Save File", command=custom.onSave)
+    file_menu.add_command(label="Save As..", command=on_save)
 
     new_bg_img = ImageTk.PhotoImage(qrala_icon)
-    contact_Icon = ImageTk.PhotoImage(contact_16px)
-    wifi_Icon = ImageTk.PhotoImage(wifi_16px)
+    contact_icon = ImageTk.PhotoImage(contact_16px)
+    wifi_icon = ImageTk.PhotoImage(wifi_16px)
 
     # Notebook
+    global note
     note = Notebook(win)
-    note.pack(fill="both", expand=1)
+    note.pack(fill="both", expand=True)
 
-    customQR = custom.getFrame(note, new_bg_img)
-    note.add(customQR, text="Custom")
+    custom_qr: Frame = custom.getFrame(note)
+    note.add(custom_qr, text="Custom")
 
-    wifiQR = wifi.getFrame(note, new_bg_img)
-    note.add(wifiQR, text="WIFI", image=wifi_Icon, compound="left")
+    wifi_qr: Frame = wifi.get_frame(note)
+    note.add(wifi_qr, text="WIFI", image=wifi_icon, compound="left")
 
-    contactQR = vcard.getFrame(note, new_bg_img)
-    note.add(contactQR, text="Contact", image=contact_Icon, compound="left")
+    contact_qr: Frame = vcard.getFrame(note)
+    note.add(contact_qr, text="VCard", image=contact_icon, compound="left")
 
-    note.configure()
+    # note.configure()
+    print("selected note: ", note.index("current"))
+
+    # Background Img
+    img_label = Label(win, image=new_bg_img)
+    img_label.place(x=680, y=330)
+
+    # Generated QR Code
+    global qr_code
+    qr_code = Label(win)
+    qr_code.place(x=680, y=80)
+
+    # Button to generate a QR-Code
+    getQrButton = Button(win,
+                         text=translation.get("Generate_Code"),
+                         command=generate_qr_code)
+    # cs.changeOnHover(getQrButton, "white", SECONDARY)
+    getQrButton.place(x=470, y=480)
+
+    # Button to generate wifi QR-Codes
+    try_current_wifi = Button(wifi_qr,
+                              text="Try current WIFI",
+                              # font=FONT_1,
+                              command=generate_wifi_text)
+
+    try_current_wifi.place(x=260, y=444)
+
+    # cs.changeOnHover(try_current_wifi, "white", SECONDARY)
 
     win.mainloop()
+
 
 if __name__ == "__main__":
     main()
