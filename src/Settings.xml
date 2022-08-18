@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Settings>
+    <language>"en"</language>
+    <error_correction>M</error_correction>
+
+    <!--- Coloring -->
+    <fill_color>black</fill_color>
+    <background_color>white</background_color>
+
+</Settings>
