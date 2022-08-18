@@ -1,8 +1,9 @@
-from src.WIFI import WIFI_Controller as Model
-from tkinter.constants import DISABLED
-from tkinter.ttk import Entry, Frame, Label, Button
+from tkinter.constants import DISABLED, END
+from tkinter.ttk import Entry, Frame, Label
+
 import src.ConstantStyle as cs
 import src.Translations as translation
+from src.WIFI import WIFI_Controller as Model
 
 # Colors
 BACKGROUND = cs.BACKGROUND
@@ -17,21 +18,39 @@ SSID_PLACEHOLDER = 'SSID (often WIFI-Name)'
 PASSWORD_PLACEHOLDER = 'Password'
 
 
-
-def create_qr():
+def get_wifi_text() -> str:
+    wifi_text = ""
     ssid = cs.get_entry_text(wifi_name, SSID_PLACEHOLDER)
     password = cs.get_entry_text(wifi_password, PASSWORD_PLACEHOLDER)
 
     if ssid is not None and password is not None:
-        Model.create_wifi_qr(ssid, password)
+        wifi_text = Model.create_wifi_text(ssid, password)
+
+    return wifi_text
 
 
-def getFrame(note, new_bg_img):
-    wifi_QR = Frame(note)
-    # wifi_QR.configure(background=BG_COLOR)
+def generate_wifi_qr() -> str:
+    wifi_tuple = Model.try_current_wifi()
+
+    wifi_name_text = wifi_tuple[0]
+    wifi_name.delete(0, END)
+    wifi_name.insert(0, wifi_name_text)
+
+    wifi_password_text = wifi_tuple[1]
+    print("tuple password:", wifi_password_text)
+    wifi_password.delete(0, END)
+    wifi_password.insert(0, wifi_password_text)
+
+    opt_wifi_text = wifi_tuple[2]
+    return opt_wifi_text
+
+
+def get_frame(note: any) -> Frame:
+    wifi_frame = Frame(note)
+    # wifi_frame.configure(background=BG_COLOR)
 
     # GUI
-    label_In = Label(wifi_QR, background=BACKGROUND, font=FONT_2, foreground="black",
+    label_In = Label(wifi_frame, background=BACKGROUND, font=FONT_2, foreground="black",
                      text=translation.get('QR_Inhalt'))
 
     label_In.grid(column=0,
@@ -40,7 +59,7 @@ def getFrame(note, new_bg_img):
                   pady=8)
 
     # Label
-    label_In = Label(wifi_QR, background=BACKGROUND, font=FONT_2, foreground="black",
+    label_In = Label(wifi_frame, background=BACKGROUND, font=FONT_2, foreground="black",
                      text='Enter your WIFI information')
     label_In.grid(column=0,
                   row=0,
@@ -48,7 +67,7 @@ def getFrame(note, new_bg_img):
                   pady=8)
 
     global wifi_name
-    wifi_name = Entry(wifi_QR, width=30)
+    wifi_name = Entry(wifi_frame, width=30)
     wifi_name.grid(column=0,
                    row=1,
                    padx=20,
@@ -58,7 +77,7 @@ def getFrame(note, new_bg_img):
     wifi_name.bind("<Button-1>", lambda event: cs.removePlaceholder(event, wifi_name))
 
     global wifi_password
-    wifi_password = Entry(wifi_QR, width=30)
+    wifi_password = Entry(wifi_frame, width=30)
     wifi_password.grid(column=0,
                        row=2,
                        padx=20,
@@ -67,42 +86,4 @@ def getFrame(note, new_bg_img):
     wifi_password.configure(state=DISABLED)
     wifi_password.bind("<Button-1>", lambda event: cs.removePlaceholder(event, wifi_password))
 
-    # Button to generate QR-Codes
-    get_QR_button = Button(wifi_QR,
-                           text=translation.get('Generate_Code'),
-                           # highlightbackground=BG_COLOR,
-                           # padx=4,
-                           #  pady=2,
-                           # font=FONT_1,
-                           command=create_qr
-                           )
-    # get_QR_button.configure()
-    # get()
-
-    get_QR_button.grid(column=0,
-                       row=4,
-                       padx=10,
-                       pady=18)
-    # cs.changeOnHover(get_QR_button, "white", SECONDARY)
-
-    # Button to generate QR-Codes
-    try_current_wifi = Button(wifi_QR,
-                              text="Try current WIFI",
-                              # highlightbackground=BACKGROUND,
-                              # padx=4,
-                              # pady=2,
-                              # font=FONT_1,
-                              command=Model.try_current_wifi)
-
-    try_current_wifi.grid(column=1,
-                          row=4,
-                          padx=10,
-                          pady=18)
-
-    # cs.changeOnHover(try_current_wifi, "white", SECONDARY)
-
-    # Background Img
-    img_label = Label(wifi_QR, image=new_bg_img, background=BACKGROUND)
-    img_label.place(x=680, y=306)
-
-    return wifi_QR
+    return wifi_frame

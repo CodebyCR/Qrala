@@ -1,8 +1,8 @@
 from tkinter.constants import DISABLED, NORMAL, END
-from tkinter.ttk import Entry, Frame, Label, Button
+from tkinter.ttk import Entry, Frame, Label
 from src.VCard import VCardModel as model
 import src.ConstantStyle as cs
-import src.Translations as translation
+
 
 # Colors
 BACKGROUND = cs.BACKGROUND
@@ -26,11 +26,10 @@ POSTALCODE = "Postalcode"
 BIRTHDAY = "Birthday (mm.dd.yyyy)"
 WEBSITE = "http://www.website.com/"
 
-
-
 entry_List = []
 
-def create_Entry(frame, current_column, current_row, placeholder_text):
+
+def create_Entry(frame: any, current_column: any, current_row: any, placeholder_text: any) -> Entry:
     entry_name = Entry(frame, width=30)
     entry_name.insert(0, placeholder_text)
     entry_name.grid(column=current_column,
@@ -40,102 +39,69 @@ def create_Entry(frame, current_column, current_row, placeholder_text):
     entry_List.append(entry_name)
     return entry_name
 
-def removePlaceholder(event, current_entry):
+
+def removePlaceholder(event: any, current_entry: Entry) -> None:
     current_entry.configure(state=NORMAL)
     current_entry.delete(0, END)
 
 
+def get_dict() -> dict:
+    entry_dict = {SHOWN_NAME: entry_List[0].get(),
+                  LAST_NAME: entry_List[1].get(),
+                  FIRST_NAME: entry_List[2].get(),
+                  TEL_NUMBER: entry_List[3].get(),
+                  EMAIL: entry_List[4].get(),
+                  ORGANIZATION: entry_List[5].get(),
+                  ADDRESS: entry_List[6].get(),
+                  CITY: entry_List[7].get(),
+                  COUNTRY: entry_List[8].get(),
+                  POSTALCODE: entry_List[9].get(),
+                  BIRTHDAY: entry_List[10].get(),
+                  WEBSITE: entry_List[11].get()}
+
+    print(entry_dict)
+
+    return entry_dict
 
 
-def create_text():
-
-    entry_dic = {}
-
-    entry_dic[SHOWN_NAME] = entry_List[0].get()
-    entry_dic[LAST_NAME] = entry_List[1].get()
-    entry_dic[FIRST_NAME] = entry_List[2].get()
-    entry_dic[TEL_NUMBER] = entry_List[3].get()
-    entry_dic[EMAIL] = entry_List[4].get()
-    entry_dic[ORGANIZATION] = entry_List[5].get()
-    entry_dic[ADDRESS] = entry_List[6].get()
-    entry_dic[CITY] = entry_List[7].get()
-    entry_dic[COUNTRY] = entry_List[8].get()
-    entry_dic[POSTALCODE] = entry_List[9].get()
-    entry_dic[BIRTHDAY] = entry_List[10].get()
-    entry_dic[WEBSITE] = entry_List[11].get()
-
-    print(entry_dic)
-    
-    return entry_dic
-    
-def create_vcard_text():
-    entry_dict = create_text()
-
-    # vCard_v3 = f"""
-    # BEGIN:VCARD
-    # VERSION:3.0
-    # FN:{entry_dict[SHOWN_NAME]}
-    # N:{entry_dict[LAST_NAME]};{entry_dict[FIRST_NAME]}
-    # BDAY:--0203
-    # ORG;TYPE=work:{entry_dict[ORGANIZATION]}
-    # ADR;WORK:;;{entry_dict[ADDRESS]};{entry_dict[CITY]};;{entry_dict[POSTALCODE]}
-    # TEL;WORK;VOICE:{entry_dict[TEL_NUMBER]}
-    # TEL;TYPE=CELL:+49 178 12345678
-    # TEL;WORK;FAX:+49 7531 123456
-    # URL:http://www.website.com/
-    # EMAIL;INTERNET:{entry_dict[EMAIL]}
-    # END:VCARD
-    # """
-
-    vCard_v3 = """
-    BEGIN:VCARD
-    VERSION:3.0
-    FN:Christoph Rohde
-    N:Rohde;Christoph
-    BDAY:--01.02
-    ORG;TYPE=work:Sim
-    ADR;WORK:;;Weinberg 48;Wuppertal;;42109
-    TEL;WORK;VOICE:015785407998
-    URL:http://www.website.com/
-    EMAIL;
-    iich@live.de
-    END:VCARD"""
-
-    # vCard_v3 = f"""
-    # BEGIN:VCARD
-    # VERSION:3.0
-    # FN:{entry_dict[SHOWN_NAME]}
-    # N:{entry_dict[LAST_NAME]};{entry_dict[FIRST_NAME]}
-    # BDAY:--01.02
-    # ORG;TYPE=work:{entry_dict[ORGANIZATION]}
-    # ADR;WORK:;;{entry_dict[ADDRESS]};{entry_dict[CITY]};;{entry_dict[POSTALCODE]}
-    # TEL;WORK;VOICE:{entry_dict[TEL_NUMBER]}
-    # URL:http://www.website.com/
-    # EMAIL;
-    # {entry_dict[EMAIL]}
-    # END:VCARD
-    # """
+# def create_vcard_text():
+#     entry_dict = get_dict()
+#
+#     # vCard_v3 = """
+#     # BEGIN:VCARD
+#     # VERSION:3.0
+#     # FN:Christoph Rohde
+#     # N:Rohde;Christoph
+#     # BDAY:--01.02
+#     # ORG;TYPE=work:Sim
+#     # ADR;WORK:;;Weinberg 48;Wuppertal;;42109
+#     # TEL;WORK;VOICE:015785407998
+#     # URL:http://www.website.com/
+#     # EMAIL;
+#     # iich@live.de
+#     # END:VCARD"""
+#     #
+#     # vcard_text = str(vCard_v3)
+#
+#     model.create_vcard_qr(entry_dict)
 
 
-    vcard_text = str(vCard_v3)
+def get_vcard_text() -> str:
+    entry_dict = get_dict()
+    vcard_txt = model.create_vcard_text(entry_dict)
+    return vcard_txt
 
-    model.create_vcard_qr(entry_dict)
 
-def getFrame(note, new_bg_img):
+def getFrame(note: any) -> Frame:
     vcard_frame = Frame(note)
-
-    # Background Img
-    img_label = Label(vcard_frame, image=new_bg_img, background=BACKGROUND)
-    img_label.place(x=680, y=306)
 
     # Label
     label_In = Label(vcard_frame, background=BACKGROUND, font=FONT_2, foreground="black",
-                        text='Enter your contact information for the VCard')
+                     text='Enter your contact information for the VCard')
     label_In.grid(column=0,
                   row=1,
                   padx=20,
                   pady=8)
-
 
     # Shown name
     global shown_name
@@ -208,18 +174,5 @@ def getFrame(note, new_bg_img):
     website = create_Entry(vcard_frame, 0, 8, WEBSITE)
     website.configure(state=DISABLED)
     website.bind("<Button-1>", lambda event: removePlaceholder(event, website))
-
-    get_QR_button = Button(vcard_frame,
-                           text=translation.get("Generate_Code"),
-                           command=create_vcard_text)
-
-
-
-    get_QR_button.grid(column=1,
-                       row=8,
-                       padx=10,
-                       pady=18)
-    # cs.changeOnHover(get_QR_button, "white", SECONDARY)
-
 
     return vcard_frame
