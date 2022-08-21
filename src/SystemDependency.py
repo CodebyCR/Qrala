@@ -5,7 +5,7 @@ from pathlib import Path
 def get_os():
     if _platform == "darwin":
         return "Mac OS"
-    elif _platform == "win64":
+    elif _platform == "win32":
         return "Windows"
 
 

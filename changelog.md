@@ -16,6 +16,9 @@
 - File --> Save are now working ('.png' only at this time).
 - Some PEP8-compliant changes and GUI improvements.
 - added settings.xml.
+- <b> VCard QR-Codes are now working on Windows [#3](https://github.com/CodebyCR/Qrala/issues/3) </b>
+- <b> WIFI QR-Codes are now working on Windows [#3](https://github.com/CodebyCR/Qrala/issues/3) </b>
+- some Windows improvements.
 
 ---
 ### Version 0.9.8)  

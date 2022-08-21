@@ -4,6 +4,9 @@ from src.VCard import VCardModel as model
 import src.ConstantStyle as cs
 
 
+PAD_X = 16
+PAD_Y = 8
+
 # Colors
 BACKGROUND = cs.BACKGROUND
 SECONDARY = cs.SECONDARY
@@ -34,8 +37,8 @@ def create_Entry(frame: any, current_column: any, current_row: any, placeholder_
     entry_name.insert(0, placeholder_text)
     entry_name.grid(column=current_column,
                     row=current_row,
-                    padx=20,
-                    pady=8)
+                    padx=PAD_X,
+                    pady=PAD_Y)
     entry_List.append(entry_name)
     return entry_name
 
@@ -100,8 +103,8 @@ def getFrame(note: any) -> Frame:
                      text='Enter your contact information for the VCard')
     label_In.grid(column=0,
                   row=1,
-                  padx=20,
-                  pady=8)
+                  padx=PAD_X,
+                  pady=PAD_Y)
 
     # Shown name
     global shown_name

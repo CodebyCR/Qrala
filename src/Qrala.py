@@ -225,7 +225,7 @@ def main() -> None:
                               # font=FONT_1,
                               command=generate_wifi_text)
 
-    try_current_wifi.place(x=260, y=444)
+    try_current_wifi.place(x=260, y=455)
 
     # cs.changeOnHover(try_current_wifi, "white", SECONDARY)
 

@@ -49,14 +49,7 @@ def get_frame(note: any) -> Frame:
     wifi_frame = Frame(note)
     # wifi_frame.configure(background=BG_COLOR)
 
-    # GUI
-    label_In = Label(wifi_frame, background=BACKGROUND, font=FONT_2, foreground="black",
-                     text=translation.get('QR_Inhalt'))
 
-    label_In.grid(column=0,
-                  row=2,
-                  padx=20,
-                  pady=8)
 
     # Label
     label_In = Label(wifi_frame, background=BACKGROUND, font=FONT_2, foreground="black",

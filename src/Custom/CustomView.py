@@ -57,7 +57,7 @@ def getFrame(note):
 
     # Textbox
     global custom_text
-    custom_text = Text(customQR, height=20, width=60, font=FONT_2)
+    custom_text = Text(customQR, height=16, width=50, font=FONT_2)
     custom_text.grid(column=0,
                      row=3,
                      padx=20, sticky="nesw")
