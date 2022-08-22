@@ -152,7 +152,11 @@ def main() -> None:
     win = Tk()
 
     # Dock Icon
-    dock_image = Image.open("../Images/Qrala_Icon.icns")
+    if OPERATING_SYSTEM == "Mac OS":
+        dock_image = Image.open("../Images/Qrala_Icon.icns")
+
+    elif OPERATING_SYSTEM == "Windows":
+        dock_image = Image.open("../Images/Qrala_Icon.ico")
 
     win.iconphoto(False, ImageTk.PhotoImage(dock_image))
     title_icon_path = image_path.joinpath("Qrala_Icon_2.icns")
@@ -225,7 +229,10 @@ def main() -> None:
                               # font=FONT_1,
                               command=generate_wifi_text)
 
-    try_current_wifi.place(x=260, y=455)
+    if OPERATING_SYSTEM == "Mac OS":
+        try_current_wifi.place(x=260, y=444)
+    elif OPERATING_SYSTEM == "Windows":
+        try_current_wifi.place(x=260, y=455)
 
     # cs.changeOnHover(try_current_wifi, "white", SECONDARY)
 
