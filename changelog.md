@@ -18,7 +18,7 @@
 - added settings.xml.
 - <b> VCard QR-Codes are now working on Windows [#3](https://github.com/CodebyCR/Qrala/issues/3) </b>
 - <b> WIFI QR-Codes are now working on Windows [#3](https://github.com/CodebyCR/Qrala/issues/3) </b>
-- some Windows improvements.
+- some Windows improvements. [#4](https://github.com/CodebyCR/Qrala/issues/4)
 
 ---
 ### Version 0.9.8)  
