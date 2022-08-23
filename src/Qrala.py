@@ -29,6 +29,8 @@ from tkinter import Tk, Menu, filedialog
 from tkinter.ttk import Notebook, Frame, Label, Button
 from PIL import Image, ImageTk
 
+from src.XML_Parser import XML_Parser
+
 # max. 4296 symbols
 current_qr_image = []
 
@@ -60,6 +62,11 @@ setting_16px = Image.open(setting_path).resize((16, 16))
 
 
 def create_qr(text: str) -> Image:
+    # Get QR Code customization
+    xml_parser = XML_Parser('Settings.xml')
+    filling_color = xml_parser.get_tag_text("fill_color")
+    background_color = xml_parser.get_tag_text("background_color")
+
     qr = qrcode.QRCode(
         #     # ERROR_CORRECT_H: About 30% or less errors can be corrected
         #     error_correction=qrcode.constants.ERROR_CORRECT_H,
@@ -75,7 +82,8 @@ def create_qr(text: str) -> Image:
 
     qr.add_data(text)
     qr.make(fit=True)
-    qr_image = qr.make_image(fill_color=cs.FILL_COLOR, back_color=cs.BACK_COLOR)
+
+    qr_image = qr.make_image(fill_color=filling_color, back_color=background_color)
 
     # qr = qr.png
 
@@ -84,9 +92,8 @@ def create_qr(text: str) -> Image:
 
 def set_qr_code_image(qr_text: str) -> Image:
     qr_image = create_qr(qr_text)
-    qr_image = qr_image.resize((200, 200), Image.ANTIALIAS)
-
-    qr_tk_image = ImageTk.PhotoImage(qr_image)
+    qr_tk_image = qr_image.resize((200, 200), Image.ANTIALIAS)
+    qr_tk_image = ImageTk.PhotoImage(qr_tk_image)
     qr_code.configure(image=qr_tk_image)
     qr_code.image = qr_tk_image
 

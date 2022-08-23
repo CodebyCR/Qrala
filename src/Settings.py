@@ -1,6 +1,5 @@
 # from pprint import pprint
-import xml.etree.ElementTree as ET
-import xml
+
 from tkinter import *
 from tkinter.constants import CENTER, NONE
 from tkinter.ttk import Label, Combobox, Button
@@ -9,7 +8,6 @@ from qrcode import constants
 
 import src.ConstantStyle as cs
 # Colors
-from src.SystemDependency import get_settings_path
 from src.XML_Parser import XML_Parser
 
 xml_parser = XML_Parser('Settings.xml')
@@ -27,6 +25,10 @@ correctness = {
     "H": constants.ERROR_CORRECT_H,
     "Q": constants.ERROR_CORRECT_Q,
 }
+
+
+color = ["white", "black", "red", "green", "blue", "yellow",
+         "orange", "purple", "pink", "brown", "grey"]
 
 
 def get_correctness() -> int:
@@ -58,6 +60,14 @@ def save_and_close_settings() -> None:
     # Set Error Correction
     new_error_level = choose_error_level.get()
     xml_parser.set_tag_text("error_correction", new_error_level)
+
+    # Set Fill Color
+    new_fill_color = chooseInColor.get()
+    xml_parser.set_tag_text("fill_color", new_fill_color)
+
+    # Set Background Color
+    new_background_color = chooseOutColor.get()
+    xml_parser.set_tag_text("background_color", new_background_color)
 
     settings_win.destroy()
 
@@ -122,27 +132,33 @@ def get_settings() -> None:
     inColorLabel.configure(background=BACKGROUND, font=FONT_1, padding=10)
     inColorLabel.grid(column=0, row=5, sticky="w")
 
+    global chooseInColor
     chooseInColor = Combobox(settings_win, state="readonly",
-                             values=["Black",
-                                     "White"]
+                             values=color
                              )
     chooseInColor.configure(background=BACKGROUND, font=FONT_1,
                             takefocus=NONE, justify=CENTER)
     chooseInColor.grid(column=1, row=5)
-    chooseInColor.current(0)
+    fill_color = xml_parser.get_tag_text("fill_color")
+    fill_index = color.index(fill_color)
+    chooseInColor.current(fill_index)
+
 
     outColorLabel = Label(settings_win, text="Background Color:")
     outColorLabel.configure(background=BACKGROUND, font=FONT_1, padding=10)
     outColorLabel.grid(column=0, row=6, sticky="w")
 
+    global chooseOutColor
     chooseOutColor = Combobox(settings_win, state="readonly",
-                              values=["Black",
-                                      "White"]
+                              values=color
                               )
     chooseOutColor.configure(background=BACKGROUND, font=FONT_1,
                              takefocus=NONE, justify=CENTER)
     chooseOutColor.grid(column=1, row=6)
-    chooseOutColor.current(1)
+    background_color = xml_parser.get_tag_text("background_color")
+    background_index = color.index(background_color)
+    chooseOutColor.current(background_index)
+
 
     # QR Code Size
     # sizeLabel = Label(settings_win, text="QR-Code Size:")
