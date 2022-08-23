@@ -93,6 +93,7 @@ def create_qr(text: str) -> Image:
 def set_qr_code_image(qr_text: str) -> Image:
     qr_image = create_qr(qr_text)
     qr_tk_image = qr_image.resize((200, 200), Image.ANTIALIAS)
+    # TODO: save as temporary file -> save a placeholder image
     qr_tk_image = ImageTk.PhotoImage(qr_tk_image)
     qr_code.configure(image=qr_tk_image)
     qr_code.image = qr_tk_image
