@@ -1,7 +1,7 @@
 #################################################################################
 #   Copyright of Christoph Rohde, 2022                                          #
 #                                                                               #
-#   Qrala Version: 0.9.9,             # #  # # # # # #   # #                    #
+#   Qrala Version: 1.0.0,             # #  # # # # # #   # #                    #
 #   sine 2021                       #    #             #    #                   #
 #                                   #   #   #      #   #   #                    #
 #                                     #                  #                      #
@@ -23,6 +23,7 @@ from src import About
 import SystemDependency as sys_dep
 import ConstantStyle as cs
 import src.Translations as translation
+import cv2
 
 # tkinter
 from tkinter import Tk, Menu, filedialog
@@ -68,7 +69,7 @@ def create_qr(text: str) -> Image:
     background_color = xml_parser.get_tag_text("background_color")
 
     qr = qrcode.QRCode(
-        #     # ERROR_CORRECT_H: About 30% or less errors can be corrected
+        #     # ERROR_CORRECT_H: Up to 30% of errors can be corrected
         #     error_correction=qrcode.constants.ERROR_CORRECT_H,
         error_correction=setting.get_correctness(),
         # Control the number of pixels contained in each small grid in the QR code
@@ -92,8 +93,11 @@ def create_qr(text: str) -> Image:
 
 def set_qr_code_image(qr_text: str) -> Image:
     qr_image = create_qr(qr_text)
-    qr_tk_image = qr_image.resize((200, 200), Image.ANTIALIAS)
+    qr_image_copy = qr_image.copy()
+
+    qr_tk_image = qr_image_copy.resize((200, 200), Image.ANTIALIAS)
     # TODO: save as temporary file -> save a placeholder image
+
     qr_tk_image = ImageTk.PhotoImage(qr_tk_image)
     qr_code.configure(image=qr_tk_image)
     qr_code.image = qr_tk_image
@@ -134,11 +138,11 @@ def on_save():
         mode='w',
         initialdir="/",
         title="Save as",
-        initialfile='My_QR_Code.png',
-        # filetypes=(("Image files",
-        #             "*.png;*.jpg;*.svg")),
-        #            ("All files", "*.*")),
-        defaultextension=".png")
+        initialfile='My_QR_Code',
+        filetypes=[('*.png', 'png'),
+                   ('*.jpg', 'jpg')],
+        defaultextension=".png"
+    )
 
     #
     # my_file.write(current_qr_image)
@@ -147,13 +151,32 @@ def on_save():
     if file:
         qr_image: Image = current_qr_image[0]
 
-        if file.name.endswith(".png"):
-            qr_image.save(file.name)
+        qr_image.save(file.name)
         # else:
         #     qr_image.save(file.name + ".svg")
 
         qr_image.save(file)
         # file.close()
+
+
+def open_file():
+    # if else    #wenn kein qr code
+    file_path = filedialog.askopenfilename()
+    split_info = cv2.QRCodeDetector()
+    temp = cv2.imread(file_path)
+    result_text, _, _ = split_info.detectAndDecode(temp)
+    print("QRCode:\t", result_text)
+
+    # Show the text in custom tab
+    note.select(0)
+    custom.set_loaded_text(result_text)
+
+    # Show loaded QR code in Qrala
+    loaded_image = Image.open(file_path)
+    loaded_image = loaded_image.resize((200, 200), Image.ANTIALIAS)
+    qr_tk_image = ImageTk.PhotoImage(loaded_image)
+    qr_code.configure(image=qr_tk_image)
+    qr_code.image = qr_tk_image
 
 
 def main() -> None:
@@ -190,7 +213,7 @@ def main() -> None:
     file_menu = Menu(menubar)
     menubar.add_cascade(label="File", menu=file_menu)
     file_menu.add_command(label="New File", command=custom.clear_text_entry)
-    file_menu.add_command(label="Open", command=custom.onOpen)
+    file_menu.add_command(label="Open", command=open_file)
     file_menu.add_separator()
     file_menu.add_command(label="Save As..", command=on_save)
 
