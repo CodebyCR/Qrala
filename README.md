@@ -3,8 +3,8 @@
 ### _Qrala is an all-in-one QR-Code tool with tkInter GUI.<br/>_
 <br/>
 
-## Trouble shooting ?
-_If you have some problems, look at the [Qrala-Wiki](https://github.com/CodebyCR/Qrala/wiki) 
+## Some Issues ?
+_Look at the [Qrala-Wiki](https://github.com/CodebyCR/Qrala/wiki) 
 or report them [here](https://github.com/CodebyCR/Qrala/issues)._<br/>
 <br/>
 
