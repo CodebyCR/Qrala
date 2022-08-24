@@ -1,4 +1,4 @@
-from tkinter import Text, filedialog
+from tkinter import Text, filedialog, Image
 from tkinter.constants import END
 from tkinter.ttk import Frame, Label
 import src.ConstantStyle as cs
@@ -15,15 +15,24 @@ FONT_1 = cs.FONT_1
 FONT_2 = cs.FONT_2
 
 
-def onOpen():
-    # if else    #wenn kein qr code
-    file_path = filedialog.askopenfilename()
-    splitIn = cv2.QRCodeDetector()
-    temp = cv2.imread(file_path)
-    result_text, _, _ = splitIn.detectAndDecode(temp)
-    print("QRCode:\t", result_text)
+# def onOpen():
+#     # if else    #wenn kein qr code
+#     file_path = filedialog.askopenfilename()
+#     splitIn = cv2.QRCodeDetector()
+#     temp = cv2.imread(file_path)
+#     result_text, _, _ = splitIn.detectAndDecode(temp)
+#     print("QRCode:\t", result_text)
+#     custom_text.delete(1.0, END)
+#     custom_text.insert(1.0, result_text)
+#
+#     loaded_image = Image.open(file_path)
+#     qr_tk_image = ImageTk.PhotoImage(qr_tk_image)
+#     qr_code.configure(image=qr_tk_image)
+
+
+def set_loaded_text(text):
     custom_text.delete(1.0, END)
-    custom_text.insert(1.0, result_text)
+    custom_text.insert(1.0, text)
 
 
 # Clear Function
