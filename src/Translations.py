@@ -12,7 +12,7 @@ def get(some_string: str) -> str:
     tag_name = qrala.getElementsByTagName(some_string)
     return tag_name[1].firstChild.data
 
-
+# TODO: obsolete
 class XML:
     def __init__(self, xml_path: str):
         self.xml_path = xml_path

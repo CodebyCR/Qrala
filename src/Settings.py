@@ -1,6 +1,5 @@
 # from pprint import pprint
-import xml.etree.ElementTree as ET
-import xml
+
 from tkinter import *
 from tkinter.constants import CENTER, NONE
 from tkinter.ttk import Label, Combobox, Button
@@ -9,7 +8,9 @@ from qrcode import constants
 
 import src.ConstantStyle as cs
 # Colors
-from src.SystemDependency import get_settings_path
+from src.XML_Parser import XML_Parser
+
+xml_parser = XML_Parser('Settings.xml')
 
 BACKGROUND = cs.BACKGROUND
 SECONDARY = cs.SECONDARY
@@ -25,36 +26,13 @@ correctness = {
     "Q": constants.ERROR_CORRECT_Q,
 }
 
-settings_path = get_settings_path()
-domtree = xml.dom.minidom.parse(str(settings_path))
-settings = domtree.documentElement
 
-
-def set_setting(setting: str) -> None:
-    # TODO: implement set setting
-    data = ET.Element('chess')
-
-    element1 = ET.SubElement(data, 'Opening')
-
-    s_elem1 = ET.SubElement(element1, 'E4')
-    s_elem2 = ET.SubElement(element1, 'D4')
-
-    s_elem1.set('type', 'Accepted')
-    s_elem2.set('type', 'Declined')
-
-    s_elem1.text = "King's Gambit Accepted"
-    s_elem2.text = "Queen's Gambit Declined"
-
-    b_xml = ET.tostring(data)
-
-    with open("GFG.xml", "wb") as f:
-        f.write(b_xml)
+color = ["white", "black", "red", "green", "blue", "yellow",
+         "orange", "purple", "pink", "brown", "grey"]
 
 
 def get_correctness() -> int:
-    current_correction = settings.getElementsByTagName("error_correction")
-    current_correction = current_correction[0].firstChild.data
-    print('correctness_level: ', current_correction, " / ", correctness[current_correction])
+    current_correction = xml_parser.get_tag_text("error_correction")
     return correctness[current_correction]
 
 
@@ -71,7 +49,31 @@ def switch_language(lang: any) -> None:
     pass
 
 
+def save_and_close_settings() -> None:
+    # Set Language
+    chosen_language = chooseLang.get()
+    if chosen_language == "English":
+        xml_parser.set_tag_text("language", "en")
+    elif chosen_language == "Deutsch":
+        xml_parser.set_tag_text("language", "de")
+
+    # Set Error Correction
+    new_error_level = choose_error_level.get()
+    xml_parser.set_tag_text("error_correction", new_error_level)
+
+    # Set Fill Color
+    new_fill_color = chooseInColor.get()
+    xml_parser.set_tag_text("fill_color", new_fill_color)
+
+    # Set Background Color
+    new_background_color = chooseOutColor.get()
+    xml_parser.set_tag_text("background_color", new_background_color)
+
+    settings_win.destroy()
+
+
 def get_settings() -> None:
+    global settings_win
     settings_win = Tk()
 
     # settings_win.configure(background=BG_COLOR)
@@ -85,6 +87,7 @@ def get_settings() -> None:
     langLabel.configure(background=BACKGROUND, font=FONT_1, padding=10)
     langLabel.grid(column=0, row=2, sticky="w")
 
+    global chooseLang
     chooseLang = Combobox(settings_win, state="readonly",
                           values=["Deutsch",
                                   "English"]
@@ -93,13 +96,18 @@ def get_settings() -> None:
     chooseLang.configure(background=BACKGROUND, font=FONT_1,
                          takefocus=NONE, justify=CENTER)
     chooseLang.grid(column=1, row=2)
-    chooseLang.current(1)
+    lang = xml_parser.get_tag_text("language")
+    if lang == "de":
+        chooseLang.current(0)
+    elif lang == "en":
+        chooseLang.current(1)
 
     # Error Correction
     error_label = Label(settings_win, text="QR-Code Error Correction:")
     error_label.configure(background=BACKGROUND, font=FONT_1, padding=10)
     error_label.grid(column=0, row=3, sticky="w")
 
+    global choose_error_level
     choose_error_level = Combobox(settings_win, state="readonly",
                                   values=["M",
                                           "L",
@@ -111,6 +119,7 @@ def get_settings() -> None:
                                  takefocus=NONE,
                                  justify=CENTER)
     choose_error_level.grid(column=1, row=3)
+
     current_correction = get_correctness()
     choose_error_level.current(current_correction)
 
@@ -123,27 +132,33 @@ def get_settings() -> None:
     inColorLabel.configure(background=BACKGROUND, font=FONT_1, padding=10)
     inColorLabel.grid(column=0, row=5, sticky="w")
 
+    global chooseInColor
     chooseInColor = Combobox(settings_win, state="readonly",
-                             values=["Black",
-                                     "White"]
+                             values=color
                              )
     chooseInColor.configure(background=BACKGROUND, font=FONT_1,
                             takefocus=NONE, justify=CENTER)
     chooseInColor.grid(column=1, row=5)
-    chooseInColor.current(0)
+    fill_color = xml_parser.get_tag_text("fill_color")
+    fill_index = color.index(fill_color)
+    chooseInColor.current(fill_index)
+
 
     outColorLabel = Label(settings_win, text="Background Color:")
     outColorLabel.configure(background=BACKGROUND, font=FONT_1, padding=10)
     outColorLabel.grid(column=0, row=6, sticky="w")
 
+    global chooseOutColor
     chooseOutColor = Combobox(settings_win, state="readonly",
-                              values=["Black",
-                                      "White"]
+                              values=color
                               )
     chooseOutColor.configure(background=BACKGROUND, font=FONT_1,
                              takefocus=NONE, justify=CENTER)
     chooseOutColor.grid(column=1, row=6)
-    chooseOutColor.current(1)
+    background_color = xml_parser.get_tag_text("background_color")
+    background_index = color.index(background_color)
+    chooseOutColor.current(background_index)
+
 
     # QR Code Size
     # sizeLabel = Label(settings_win, text="QR-Code Size:")
@@ -160,7 +175,7 @@ def get_settings() -> None:
     # chooseSize.grid(column=1, row=7)
     # chooseSize.current(1)
 
-    apply_button = Button(settings_win, text="apply", command=settings_win.destroy)
+    apply_button = Button(settings_win, text="apply", command=save_and_close_settings)
     apply_button.place(x=500, y=294)
 
     settings_win.mainloop()

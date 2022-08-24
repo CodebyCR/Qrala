@@ -1,11 +1,17 @@
 # Changelog
 
 > Qrala &bull; _since 2021_ &bull;  <br/> 
-> Version: 0.9.9 <br/> 
+> Version: 1.0.0 <br/> 
 > All rights reserved. <br/>
 > Copyright &copy; 2021 - 2022. [Christoph Rohde](https://github.com/CodebyCR) <br/>
 > Licence: GNU Affero General Public License v3.0
 #
+
+---
+### Version 1.0.0 (pre release)
+- loaded QR-Codes are now shown in the Qrala window.
+- added QR-Code color settings.
+
 
 ---
 ### Version 0.9.9)

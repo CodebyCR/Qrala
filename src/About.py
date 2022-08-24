@@ -32,9 +32,9 @@ def get_about() -> None:
     about_text_p2 = "You can find the source code here."
     about_text_p3 = "If you have any questions or issues please tell them here."
     about_text_p4 = """
-    Qrala Version: 0.9.9,\n
+    Qrala Version: 1.0.0,\n
     License: GNU Affero General Public License v3.0,\n
-    Written by: Christoph Rohde
+    Written by Christoph Rohde
     """
 
     about_label_1 = Label(about_win, text=about_text_p1)

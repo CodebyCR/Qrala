@@ -1,6 +1,4 @@
 import subprocess
-from typing import Optional
-
 import src.SystemDependency as sys_dep
 
 # Mac command to get WI-FI Password

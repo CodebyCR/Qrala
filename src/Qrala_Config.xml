@@ -3,13 +3,13 @@
 <Translations>
 
     <Deutsch>
-        <QR_Inhalt>Wählen Sie den Inhalt des QR-Codes:</QR_Inhalt>
+        <QR_Inhalt>Wählen Sie den Inhalt des QR-Codes</QR_Inhalt>
         <Generate_Code>Code erstellen</Generate_Code>
 
     </Deutsch>
 
     <English>
-        <QR_Inhalt>Enter the input of the QR-Code:</QR_Inhalt>
+        <QR_Inhalt>Enter the input of the QR-Code</QR_Inhalt>
         <Generate_Code>Create Code</Generate_Code>
 
     </English>

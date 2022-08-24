@@ -8,10 +8,6 @@ This class is to unify the GUI style of this project.
 BACKGROUND = "#ECECEC"
 SECONDARY = "#b5b5b5"
 
-# For QR Code
-FILL_COLOR = "black"
-BACK_COLOR = "white"
-
 # Fonts
 FONT_1 = ("Helvetica", 14)  # ("Century Gothic", 14, BOLD)
 FONT_2 = ("Helvetica", 16)
