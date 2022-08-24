@@ -1,13 +1,15 @@
 <h1><img width="26px" height="26px" src="/Images/Qrala_24x24px.png"/> Qrala </h1>
 
 ### _Qrala is an all-in-one QR-Code tool with tkInter GUI.<br/>_
+<br/>
 
 ## Trouble shooting ?
 _If you have some problems, look at the [Qrala-Wiki](https://github.com/CodebyCR/Qrala/wiki) 
-or report them [here](https://github.com/CodebyCR/Qrala/issues)._
+or report them [here](https://github.com/CodebyCR/Qrala/issues)._<br/>
+<br/>
 
 ## You can show the latest changes [here](/changelog.md).
-
+<br/>
 
 ## Current Features
 | Testing           |   Mac OS Intel   |    Mac OS ARM    |    Windows <br/> 10     | Windows 11 |
