@@ -3,7 +3,7 @@
     <error_correction>H</error_correction>
 
     
-    <fill_color>black</fill_color>
-    <background_color>white</background_color>
+    <fill_color>red</fill_color>
+    <background_color>blue</background_color>
 
 </Settings>

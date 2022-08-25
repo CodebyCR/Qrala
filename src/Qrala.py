@@ -204,7 +204,7 @@ def main() -> None:
     # Qrala Menu
     qrala_menu = Menu(menubar, tearoff=0)
     menubar.add_cascade(label="Qrala", menu=qrala_menu)
-    qrala_menu.add_command(label="Preferences", command=setting.get_settings)
+    qrala_menu.add_command(label="Settings", command=setting.get_settings)
     qrala_menu.add_command(label="About", command=About.get_about)
     qrala_menu.add_separator()
     qrala_menu.add_command(label="Exit", command=win.quit)
