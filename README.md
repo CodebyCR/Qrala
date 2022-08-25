@@ -4,11 +4,11 @@
 <br/>
 
 ## Some Issues ?
-_Look at the [Qrala-Wiki](https://github.com/CodebyCR/Qrala/wiki) 
+_Look at the [Qrala Wiki](https://github.com/CodebyCR/Qrala/wiki) 
 or report them [here](https://github.com/CodebyCR/Qrala/issues)._<br/>
 <br/>
 
-## You can show the latest changes [here](/changelog.md).
+## You can see the latest changes [here](/changelog.md).
 <br/>
 
 ## Current Features
