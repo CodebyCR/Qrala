@@ -12,7 +12,7 @@ or report them [here](https://github.com/CodebyCR/Qrala/issues)._<br/>
 <br/>
 
 ## Current Features
-| Testing           |   Mac OS Intel   |    Mac OS ARM    |    Windows <br/> 10     | Windows 11 |
+| Testing           |   Mac OS Intel   |    Mac OS ARM    |    Windows 10     | Windows 11 |
 |:------------------|:----------------:|:----------------:|:-----------------------:|:----------:|
 | Version           | Big Sur 11.6.8 < | Big Sur 11.6.8 < | 21H2 <br/> 19044.1889 < |     -      |
 | Read QR-Codes     |        ✔️        |     Testing      |           ✔️            |  Testing   |
