@@ -1,5 +1,13 @@
 <h1><img width="26px" height="26px" src="/Images/Qrala_24x24px.png"/> Qrala </h1>
 
+
+![GitHub Org's stars](https://img.shields.io/github/stars/CodebyCR/Qrala?style=for-the-badge)
+![GitHub issues](https://img.shields.io/github/issues/CodeByCR/Qrala?style=for-the-badge)
+![GitHub](https://img.shields.io/github/license/CodeByCR/Qrala?style=for-the-badge)
+
+<!--![GitHub Release Date - Published_At](https://img.shields.io/github/release-date/CodeByCR/Qrala?style=for-the-badge)-->
+
+
 ### _Qrala is an all-in-one QR-Code tool with tkInter GUI.<br/>_
 <br/>
 
